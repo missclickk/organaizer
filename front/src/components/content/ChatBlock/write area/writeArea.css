@@ -1,0 +1,25 @@
+.write-area{
+    background-color: white;
+    border: 2px solid black;
+    width: 100%;
+    display: flex;
+    display: grid;
+    grid-template-columns:10fr 2fr;
+}
+
+.write-area__send-button{
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.write-area__send-button__img{
+    height: 50px;
+    width: 50px;
+}
+
+.write-area__input-text{
+    font-size: 19px;
+    }

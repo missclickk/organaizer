@@ -1,0 +1,43 @@
+.content{
+    margin-top: 0px;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 12fr 1fr;
+    grid-template-areas: 
+    " hd hd "
+    "ma  ch"
+    "cb cb";
+
+}
+.content__header
+{
+    text-align: center;
+    grid-area: hd;
+}
+.content__chat
+{
+    background-color: grey;
+    float: right;
+    grid-area: ch;
+    min-width:550px ;
+    display:flex;
+    flex-wrap: wrap;
+    display: grid;
+    grid-template-rows: 8fr 2fr;
+}
+
+.content__main
+{
+    background-color:rgb(243, 231, 208);
+    float: left;
+    grid-area: ma;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 1fr 10fr;
+}
+
+.content__clearBlock
+{
+    clear: both;
+    grid-area: cb;
+}

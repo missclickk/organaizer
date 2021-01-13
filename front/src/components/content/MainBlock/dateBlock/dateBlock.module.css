@@ -1,0 +1,38 @@
+.dateBlock{
+border: 2px solid black;
+background-color: white;  
+display: flex;
+justify-self: center;
+align-self: flex-start  ;
+
+justify-content: space-between;
+
+width: 150px;
+height: 40px;
+
+}
+
+.dateBlock__arrowRight{
+    cursor: pointer;
+}
+
+
+.dateBlock__arrowLeft{
+    cursor: pointer;
+}
+
+
+.dateBlock__arrowImg{
+    width: 20px;
+    height: 40px;
+}
+
+
+.dateBlock__date
+{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size: large;
+    font-weight: 700;
+}

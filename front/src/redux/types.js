@@ -1,0 +1,2 @@
+export const CHANGE_DATE="CHANGE_DATE"
+export const ADD_MESSAGE="CHAT/ADD_MESSAGE"
