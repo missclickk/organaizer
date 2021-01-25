@@ -1,0 +1,31 @@
+.buttons-block{
+    display: flex;
+    justify-self: flex-end;
+}
+
+
+.buttons-block__mode-btn{
+    border:1px solid black;
+    border-radius: 0.5vh;
+    z-index: 2;
+    cursor: pointer;
+    height: 4.5vh;
+    overflow: hidden;
+}
+.buttons-block__task-btn{
+    margin-left: 2vw;
+
+    border:1px solid black;
+    border-radius: 5px;
+    z-index: 2;
+    cursor: pointer;
+    height: 4.5vh;
+    overflow: hidden;
+}
+
+
+.buttons-block__btn__img{
+    width: 3vw;
+    height: 4.5vh;
+    background-color: blue;
+}

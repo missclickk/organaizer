@@ -1,0 +1,36 @@
+.week-list-conteiner{
+}
+
+.week-list-card{
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+     margin-left: 5vw;
+     min-height:5vh ;
+     margin-right: 5vw;
+     margin-top: 3vh;
+     border: 3px solid black;
+     border-radius: 5px;
+     box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+}
+
+
+
+
+.week-list-conteiner__card__date{
+    margin-left: 2vh;
+    font-size: 3vh;
+}
+.week-list-conteiner__card__tasks-conteiner{
+
+}
+.week-list-conteiner__card__tasks-conteiner__task{
+    text-align: center;
+    font-size: 3vh;
+    margin-top: 1vh;
+}
+
+.week-list-conteiner__card__tasks-conteiner__task:hover{
+    font-weight: 900;
+    color: rgba(0,0,0,0.2);
+}

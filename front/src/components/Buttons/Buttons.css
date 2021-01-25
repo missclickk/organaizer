@@ -1,0 +1,39 @@
+.btn-conteiner{
+    display: flex;
+  
+}
+.btn-conteiner__close-btn{
+    background-color: rgba(238, 28, 28, 0.877);
+    border-radius: 10px;
+    color: rgba(0,0,0);
+    margin-right: 15px;
+    display: flex;
+    justify-content: center;
+    align-self:center;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 3px solid black;
+    box-shadow: 5px 5px 10px rgba(0,0,0, 0.2);
+}
+
+
+.center-btn{
+    
+    margin-top: 3vh;
+    justify-content: center;
+}
+.end-btn{
+ 
+    justify-content: flex-end;
+}
+
+
+.btn-conteiner__create-btn{
+    background-color: rgba(13, 192, 13, 0.877);
+        border-radius: 10px;
+        border: 3px solid  rgba(13, 192, 13, 0.877);
+        color: rgba(255, 255, 255, 0.800);
+        cursor: pointer;
+        box-shadow: 5px 5px 10px rgba(0,0,0, 0.2);
+
+}

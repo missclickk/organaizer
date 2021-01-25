@@ -1,15 +1,13 @@
 .dateBlock{
-border: 2px solid black;
+border: 0.3vh solid black;
 background-color: white;  
 display: flex;
-justify-self: center;
-align-self: flex-start  ;
-
 justify-content: space-between;
-
-width: 150px;
-height: 40px;
-
+border-radius: 0.4vh;
+box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+width: 9vw;
+height:5vh;
+margin-right:  29vw;
 }
 
 .dateBlock__arrowRight{
@@ -19,12 +17,13 @@ height: 40px;
 
 .dateBlock__arrowLeft{
     cursor: pointer;
+   
 }
 
 
 .dateBlock__arrowImg{
-    width: 20px;
-    height: 40px;
+   width: 1.5vw;
+    height:4.5vh;
 }
 
 
@@ -33,6 +32,6 @@ height: 40px;
     display:flex;
     align-items: center;
     justify-content: center;
-    font-size: large;
+    font-size: 2vh;
     font-weight: 700;
 }

@@ -10,7 +10,7 @@ const initialState = {
 const addToMessageList=(list,mes)=>{
     if(list===EMPTY_MESSAGE)
     list=``;
-   list=list+'\n'+`${moment().hour()}.${moment().minute()}: ${mes}`;
+   list=list+`\n${moment().hour()}.${moment().minute()}: ${mes}`;
     return list;
 }
 

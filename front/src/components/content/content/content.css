@@ -1,0 +1,19 @@
+.content{
+    display: flex;
+    justify-content: space-between;
+}
+
+.content__main{
+    width: 80vw;
+}
+
+
+.content__chat{
+    width: 20vw;
+}
+
+.content__main__header{
+    display: flex;
+    justify-content: flex-end;
+    background-color: whitesmoke;
+}

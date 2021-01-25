@@ -1,18 +1,27 @@
 import React from 'react'
-import {} from 'react-redux'
-import styles from "./../content/content.module.css"
-import Calendar from "./calendar/Calendar"
-import WeekList from './weekList/WeekList'
-import DateBlock from "./dateBlock/dateBlock"
-const MainBlock=()=>{
+import {connect} from 'react-redux'
+import "./../content/content.css"
+import Calendar from "./calendar/calendar/Calendar"
+import WeekList from './calendar/weekList/WeekList'
+import DateBlock from "./calendar/dateBlock/dateBlock"
+import Buttons from './buttons/Buttons'
 
 
-
-return <div className={styles.content__main}>
-    
+const MainBlock=(props)=>{
+const renderElem= props.mode==="CALENDAR" ? <Calendar/>:<WeekList/> ;
+return <div className='content__main'>
+    <div className='content__main__header'>
     <DateBlock/>
-   <WeekList/>
+    <Buttons/>
+    </div>
+    {renderElem}
 </div>
 }
 
-export default MainBlock;
+const mapStateToProps=(state)=>{
+    return{
+        mode:state.date.printMode
+    }
+}
+
+export default connect(mapStateToProps,null)(MainBlock);
