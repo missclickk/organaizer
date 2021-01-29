@@ -1,40 +1,43 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {changeCalendarMode,WinTask}from '../../../../redux/actions'
+import { connect } from 'react-redux'
+import { WinTask, changeMainBlock } from './../../../../redux/actions'
 import "./Buttons.css"
 
-const Buttons=(props)=>{
-const onClickHandler=(event)=>{
-    const key=event.target.name;
-    switch(key)
-    {
-         case "mode":
-            props.mode==="CALENDAR" ?  props.changeCalendarMode("WEEKLIST") :   props.changeCalendarMode("CALENDAR")
-            break;
+const Buttons = ({ mainBlockItem, changeMainBlock, openWinTask }) => {
+    const onClickHandler = (event) => {
+        const key = event.target.name;
+        switch (key) {
+            case "mode":
+                mainBlockItem === "CALENDAR" ? changeMainBlock("WEEKLIST") : changeMainBlock("CALENDAR")
+                break;
             case "newTask":
-             props.openWinTask(true);
-             break;
-        default: break;
-    }
-}
-
-let imgSrc=props.mode==="CALENDAR" ?  "./list1.png":"./calendar.jpg"
-
-return <div className="buttons-block">
-    <div className="buttons-block__mode-btn"  onClick={onClickHandler} ><img  name="mode" alt="Change MODE " className="buttons-block__btn__img" src={imgSrc}/></div>
-    <div className="buttons-block__task-btn" onClick={onClickHandler}><img  name="newTask" alt="NEW TASK"  className="buttons-block__btn__img" src="./newTask.png"/></div>
-    <div className="buttons-block__to-do-btn">ХЗ</div>
-</div>
-}
-
-const mapDispatchToProps={
-changeCalendarMode,
-openWinTask:WinTask
-}
-const mapStateToProps=(state)=>{
-    return{
-        mode:state.date.printMode
+                mainBlockItem === "TD_LIST" ? openWinTask("todo") : openWinTask("inputTask");
+                break;
+            case "td":
+                mainBlockItem === "TD_LIST" ? changeMainBlock("CALENDAR") : changeMainBlock("TD_LIST");
+                break;
+            default: break;
+        }
     }
 
+    const imgSrc = mainBlockItem === "CALENDAR" ? "./week.svg" : "./calendar.svg"
+    const imgSRcTD = mainBlockItem === "TD_LIST" ? "./time.svg" : './todo1.svg'
+    return <div className="buttons-block">
+        {mainBlockItem === "TD_LIST" ? null :
+            <div className="buttons-block__mode-btn" onClick={onClickHandler} ><img name="mode" alt="Change MODE " className="buttons-block__btn__img" src={imgSrc} /></div>}
+        <div className="buttons-block__to-do-btn" onClick={onClickHandler}><img name="td" alt="ToDo" className="buttons-block__btn__img" src={imgSRcTD} /></div>
+        <div className="buttons-block__task-btn" onClick={onClickHandler}><img name="newTask" alt="NEW TASK" className="buttons-block__btn__img" src="./newTask.svg" /></div>
+    </div>
 }
-export default connect(mapStateToProps,mapDispatchToProps)(Buttons);
+
+const mapDispatchToProps = {
+    changeMainBlock,
+    openWinTask: WinTask
+}
+const mapStateToProps = (state) => {
+    return {
+        mainBlockItem: state.render.mainBlockItem
+    }
+
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Buttons);

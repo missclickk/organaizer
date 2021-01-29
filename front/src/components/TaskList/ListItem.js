@@ -2,13 +2,14 @@ import React from 'react'
 import {connect} from 'react-redux'
 import './TaskList.css'
 import {TaskWinMutate} from './../../redux/actions'
-const ListItem = (props) => {
+const ListItem = ({hash,time,title,TaskWinMutate}) => {
 const onClickHandker=()=>{
-    props.TaskWinMutate(props.hash,true)
+    console.log("hi mark")
+    TaskWinMutate(hash,"outputTask")
 }
-return <div id={props.hash}  className='list-conteiner__list-card__task-card'  onClick={onClickHandker}>
-    <div className='list-conteiner__list-card__task-card__time'>{props.time} </div>
-    <div className='list-conteiner__list-card__task-card__title'>{props.title} </div>
+return <div id={hash}  className='list-conteiner__list-card__task-card'  onClick={onClickHandker}>
+    <div className='list-conteiner__list-card__task-card__time'>{time} </div>
+    <div className='list-conteiner__list-card__task-card__title'>{title} </div>
 </div> 
 }
 

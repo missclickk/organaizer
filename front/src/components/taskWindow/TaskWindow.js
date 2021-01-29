@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import './TaskWindow.css'
-import { WinTask, createTask,clearErrorList } from './../../redux/actions'
+import { WinTask, createTask, clearErrorList,craeteTodoList ,createTodoTask} from './../../redux/actions'
 
 import CloseBtn from './../Buttons/CloseBtn'
 import OkBtn from './../Buttons/OkBtn'
@@ -9,12 +9,13 @@ import ErrorList from './ErrorList'
 import InputsConteiner from './inputs/InputsConteiner'
 import { useEffect } from 'react'
 
-const TaskWindow = (props) => {
+const TaskWindow = ({ closeWin,closeWinTodo, closeWinTask,  createTask,clearErrorList, printMode,type, craeteTodoList,createTodoTask}) => {
 
-    useEffect(()=>{
-           if(props.closeWin){
-           props.closeWinTask(false);}
-    },[props.closeWin])
+    useEffect(() => {
+        if (closeWin || closeWinTodo) {
+            closeWinTask(null);
+        }
+    }, [closeWin,closeWinTodo,closeWinTask])
 
     const parseTask = () => {
         let taskObj = {};
@@ -26,44 +27,48 @@ const TaskWindow = (props) => {
                 }
             })
         })
-        props.createTask(taskObj,props.printMode);
+       printMode==='TD_LIST'?type==="todoTask"?createTodoTask(taskObj.title):craeteTodoList(taskObj.title): createTask(taskObj, printMode);
     }
 
-    const closeWin=(event)=>{
-        if(event.target==document.querySelector(".conteiner-background")){
-        props.closeWinTask();
-        props.clearErrorList(false);}
-         }
+    const closeWinBack = (event) => {
+        if (event.target === document.querySelector(".conteiner-background")) {
+            closeWinTask(null);
+            clearErrorList(false);
+        }
+    }
 
-const okBtn=props.output? <OkBtn funArr={[props.closeWinTask,props.clearErrorList]} args={{0:[],1:[false]}} text='OK'/>: <OkBtn funArr={[parseTask]} args={{0:[]}} text='СОЗДАТЬ'/>;
+    const okBtn = type==="taskOutput" ?<OkBtn funArr={[closeWinTask, clearErrorList]} args={{ 0: [null], 1: [false] }} text='OK' /> : <OkBtn funArr={[parseTask]} args={{ 0: [] }} text='СОЗДАТЬ' />;
 
- 
 
-    return <div className="conteiner-background" onClick={closeWin}>
-    <div className="task-conteiner">
-      <CloseBtn funArr={[props.closeWinTask,props.clearErrorList]} args={{0:[],1:[false]}}/>
-       <InputsConteiner output={props.output}/>
-        <div className="task-conteiner__error-list-conteiner" >
-        <ErrorList/>
+
+    return <div className="conteiner-background" onClick={closeWinBack}>
+        <div className="task-conteiner">
+            <CloseBtn funArr={[closeWinTask, clearErrorList]} args={{ 0: [null], 1: [null] }} />
+            <InputsConteiner  type={type} />
+            <div className="task-conteiner__error-list-conteiner" >
+                <ErrorList />
+            </div>
+            {okBtn}
         </div>
-       {okBtn}
-    </div>
     </div>
 }
 
 const mapStateToProps = (state) => {
     return {
         errorList: state.task.errorList,
-       closeWin: state.task.closeWin,
-        printMode:state.date.printMode
+        closeWin: state.task.closeWin,
+        printMode: state.render.mainBlockItem,
+        closeWinTodo:state.todo.closeWinTodo,
     }
 };
 
 
 const mapDisptachToProps = {
-    closeWinTask:WinTask,
+    closeWinTask: WinTask,
     createTask,
-    clearErrorList
+    clearErrorList,
+    craeteTodoList,
+    createTodoTask
 }
 
 export default connect(mapStateToProps, mapDisptachToProps)(TaskWindow)

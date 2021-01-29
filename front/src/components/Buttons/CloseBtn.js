@@ -11,7 +11,7 @@ const CloseBtn=(props)=>{
         
     });
     }
-   return <div className='btn-conteiner end-btn'>
+   return <div className='btn-conteiner end-btn '>
     <div className="btn-conteiner__close-btn" id="closeBtn" onClick={onClickHandler}>X</div>
 </div>
 }

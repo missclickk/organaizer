@@ -1,4 +1,4 @@
-import {CHANGE_DATE,ADD_MESSAGE,CHANGE_CALENDAR,IS_TASK_WIN,CREATE_TASK,CLEAR_ERROR_LIST,IS_EXISTING_TASK,IS_TASK_LIST} from "./types"
+import { TODO_ITEM_IS_CHANGED,GET_TODO_HASH,CREATE_TODO_TASK,CHANGE_MAIN_BLOCK,CHANGE_DATE,ADD_MESSAGE,IS_TASK_WIN,CREATE_TASK,CLEAR_ERROR_LIST,IS_EXISTING_TASK,IS_TASK_LIST, CREATE_TODO_LIST,TODO_BUTTONS,DEL_TODO_CARD} from "./types"
 export function changeDate(flag,mode){
     return{ 
             type:CHANGE_DATE,
@@ -15,33 +15,33 @@ export function addMessage(value){
     }
 }
 
-export function changeCalendarMode(value){
+export function changeMainBlock(value){
     return{
-        type: CHANGE_CALENDAR,
+        type: CHANGE_MAIN_BLOCK,
         payload:value
     }
 }
 
-export function WinTask(value){
+export function WinTask(winType){
     return{
         type: IS_TASK_WIN,
-        payload:value
+        winType:winType
     }
 }
-export function TaskList(value=-1,flag){
+export function TaskList(value=-1,winType){
     return{
         type: IS_TASK_LIST,
         payload:Math.floor(value),
-        flag:flag
+       winType:winType
     }
 }
 
-export function TaskWinMutate(hash,flag){
+export function TaskWinMutate(hash,winType){
    
     return{
      type: IS_EXISTING_TASK,
      payload: hash,
-     flag:flag
+     winType:winType
  }
 }
 
@@ -61,4 +61,56 @@ export function clearErrorList(){
     return{
     type:CLEAR_ERROR_LIST    
     }
+}
+
+
+export function craeteTodoList(name){
+return{
+    type:CREATE_TODO_LIST,
+    payload:name
+}
+
+}
+
+
+export function isTodoButtons(value){
+    return{
+        type:TODO_BUTTONS,
+        payload:value
+    }
+}
+
+export function deleteTodoCard(value){
+    return{
+        type:DEL_TODO_CARD,
+        payload:value
+    }
+}
+
+
+
+export function createTodoTask(value){
+    return {
+        type:CREATE_TODO_TASK,
+        payload:value
+    }
+}
+
+
+export function setTodoHash(hash){
+   
+return{
+    type: GET_TODO_HASH,
+    payload:hash
+}
+}
+
+
+export function changeTodoItem(item,parent){
+    return{
+        type: TODO_ITEM_IS_CHANGED,
+        item:item,
+        parent:parent
+
+    } 
 }

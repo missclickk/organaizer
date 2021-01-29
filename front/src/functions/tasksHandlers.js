@@ -40,11 +40,11 @@ export const formatTask = (task) => {
 }
 
 const datesAreEqual = (date, secDate) => {
-    return date.date() == secDate.date() && date.year() == secDate.year() && secDate.month() == date.month() ? true : false;
+    return date.date() === secDate.date() && date.year() === secDate.year() && secDate.month() === date.month() ? true : false;
 }
 const firstDateAreGreater = (fD, sD) => {
 
-    return (fD.date() > sD.date() && fD.month() == sD.month() && fD.year() == sD.year()) || (fD.month() > sD.month() && fD.year() == sD.year()) || (fD.year() > sD.year()) ? true : false;
+    return (fD.date() > sD.date() && fD.month() === sD.month() && fD.year() === sD.year()) || (fD.month() > sD.month() && fD.year() === sD.year()) || (fD.year() > sD.year()) ? true : false;
 }
 const taskInRange = (period, fDate, secDate) => {
     let date = moment(fDate);
@@ -55,7 +55,7 @@ const taskInRange = (period, fDate, secDate) => {
             return !firstDateAreGreater(date, secDate) ? true : false;
         case "week":
             while (1) {
-                if ((date.year() === secDate.year() && date.month() > secDate.month() || (date.year() > secDate.year())))
+                if (((date.year() === secDate.year() && date.month() > secDate.month()) || ((date.year() > secDate.year()))))
                     return false;
                 if (datesAreEqual(date, secDate))
                     return true;
@@ -91,7 +91,6 @@ export const getTasksForCurrentWeek = (tasks, buf) => {
     while (!firstDateAreGreater(i, range.last)) {
         currentTasks[j] = [];
         tasks.forEach(e => {
-
             if (datesAreEqual(e.dateMoment, i) || taskInRange(e.period, e.dateMoment, i)) {
                 currentTasks[j].push(e);
 

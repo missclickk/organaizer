@@ -5,9 +5,8 @@ import './WeekList.css'
 
 const Task = ({ task, TaskWinMutate }) => {
     const onClickHandler = () => {
-        TaskWinMutate(task.title,true)
+        TaskWinMutate(task.title,'outputTask')
     }
-
     return <div className='week-list-conteiner__card__tasks-conteiner__task' onClick={onClickHandler}>
         {`${task.time} ${task.title}`}
     </div>

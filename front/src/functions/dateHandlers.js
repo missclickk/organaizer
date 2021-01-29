@@ -54,8 +54,8 @@ export const changeWeekWithFlag = (flag, date) => {
 export const getWeekRange=(date,type=null)=>{
     const clone=moment(date);
     const clone1=moment(date);
-            if(date.weekday()==0){
-                return type==Number?{
+            if(date.weekday()===0){
+                return type===Number?{
                     first: clone1.add(-6, "days").date(),
                     last: clone.date()
                 }:
@@ -64,7 +64,7 @@ export const getWeekRange=(date,type=null)=>{
                     last: clone
                 }
             }
-            return type==Number?{
+            return type===Number?{
                 first: clone1.subtract(clone1.weekday() - 1, "days").date(),
                 last: clone.add(7 - clone.weekday(), "days").date()
             }:

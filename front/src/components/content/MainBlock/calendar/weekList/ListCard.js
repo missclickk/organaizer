@@ -3,7 +3,7 @@ import './WeekList.css'
 import Task from './Task'
 const ListCard=(props)=>{
     let arr=[];
-    if(props.tasks.length!=0)
+    if(props.tasks.length!==0)
     arr=props.tasks.map((e)=>{
         return<Task task={e}/>
     })

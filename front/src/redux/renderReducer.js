@@ -1,22 +1,26 @@
-import { IS_TASK_WIN, IS_TASK_LIST, IS_EXISTING_TASK } from "./types"
-
-
+import { IS_TASK_WIN, IS_TASK_LIST, IS_EXISTING_TASK, CHANGE_MAIN_BLOCK, TODO_BUTTONS } from "./types"
+const TD_LIST='TD_LIST'
+//CALENDAR WEEK_LIST TD_LIST main Block ITEM
+//inputTask outputTask taskList todo todoTask    winType 
 const initialState = {
-    isNewTask: false,
-    isTaskList: false,
-    isTask:false
+    mainBlockItem:TD_LIST,
+    winType:null,
+    todoBtns:false
 }
 
 export const renderReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case IS_TASK_WIN:
-            return state.isTask?{ ...state, isNewTask: action.payload,isTask:false}:{ ...state, isNewTask: action.payload}
+            return {...state,winType:action.winType}
         case IS_TASK_LIST:
-            return { ...state, isTaskList: action.flag };
-
+            return { ...state,winType:action.winType};
         case IS_EXISTING_TASK:
-            return { ...state,  isNewTask: action.flag, isTaskList:false,  isTask:action.flag };
+            return { ...state,winType:action.winType};
+        case CHANGE_MAIN_BLOCK:
+            return { ...state, mainBlockItem: action.payload, }
+        case TODO_BUTTONS:
+            return{...state,todoBtns:action.payload}
         default: return state
     }
 

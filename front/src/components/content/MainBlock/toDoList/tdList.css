@@ -1,0 +1,72 @@
+.tdList-conteiner{
+ width: 80vw;
+ height: 100vh;
+}
+
+
+.tdList__message{
+    margin-left:50% ;
+    transform: translate(-45%,-50%);
+    margin-top: 15%;
+    font-size: 5vh;
+}
+
+.tdList-conteiner__cards-conteiner{
+    display: flex;
+    flex-wrap: wrap;
+   
+}
+
+.tdList-conteiner__cards-conteiner__card{
+    margin-left: 10px;
+    margin-top: 10px;
+    min-width: 12vw;
+   min-height: 12vh;
+    border: 2px rgb(73, 148, 167) solid;
+    background-color: rgb(219, 210, 210);
+    border-radius: 5px;
+    cursor:pointer;
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+ 
+}
+
+.tdList-conteiner__cards-conteiner__card__header{
+    display: flex;
+   align-items: center;
+   justify-content:flex-end;
+
+}
+.tdList-conteiner__cards-conteiner__card__header__title{
+    margin-top: 0.5vw;
+    margin-left: 1vh;
+    margin-right: 1vh;
+    font-size: 3vh;
+    text-decoration: underline rgb(73, 148, 167);
+}
+
+.tdItem{
+    display: flex;
+
+}
+
+.tdItem__checkbox{
+    margin-right: 0.5vw;
+}
+
+.btnsWrapper{
+    display: flex;
+    visibility: hidden;
+}
+
+
+.visibilityHiden{
+    visibility: visible;
+}
+
+.tdItem__name_normal{
+    text-decoration: none;
+}
+
+.tdItem__name_line-through{
+  text-decoration:line-through;
+} 

@@ -6,9 +6,9 @@ import CloseBtn from './../Buttons/CloseBtn'
 import ListItem from './ListItem'
 const TaskListWin=(props)=>{
 
-    const onClickHandler = () => {
-                props.closeTaskList(-1,false);
-       
+    const onClickHandler = (event) => {
+        if (event.target === document.querySelector(".list-conteiner")) 
+                props.closeTaskList(-1,null);
         }
     
 
@@ -16,7 +16,7 @@ const TaskListWin=(props)=>{
 
     return <div className="list-conteiner" onClick={onClickHandler}>
         <div className='list-conteiner__list-card'>
-        <CloseBtn funArr={[props.closeTaskList]} args={{0:[-1,false]}}/>
+        <CloseBtn funArr={[props.closeTaskList]} args={{0:[-1,null]}}/>
 
             {list}
 

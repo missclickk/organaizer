@@ -1,22 +1,33 @@
 import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import  './content.css'
+import './content.css'
 import ChatBlock from './../ChatBlock/ChatBlock'
 import MainBlock from './../MainBlock/MainBlock'
 import TaskWindow from './../../taskWindow/TaskWindow'
 import TaskListWin from './../../TaskList/TaskListWin'
 import { store } from './../../../index'
-const renderModalWindow = (key,output) => {
+const renderModalWindow = (key, output = -1) => {
     let window;
     switch (key) {
-        case 'task':
-            window =  output===true?  (<Provider store={store}> <TaskWindow output={true}/></Provider>): (<Provider store={store}> <TaskWindow output={false}/></Provider>)
+        case 'inputTask':
+            window = (<Provider store={store}> <TaskWindow type="taskInput" /></Provider>);
             ReactDOM.render(window, document.querySelector(".modaleWindow"))
             break;
-
+        case 'outputTask':
+            window = (<Provider store={store}> <TaskWindow type="taskOutput" /></Provider>)
+            ReactDOM.render(window, document.querySelector(".modaleWindow"))
+            break;
         case 'taskList':
             window = (<Provider store={store}> <TaskListWin /></Provider>)
+            ReactDOM.render(window, document.querySelector(".modaleWindow"))
+            break;
+        case 'todo':
+            window = <Provider store={store}> <TaskWindow type="todo" /></Provider>
+            ReactDOM.render(window, document.querySelector(".modaleWindow"))
+            break;
+        case 'todoTask':
+            window = <Provider store={store}> <TaskWindow type="todoTask" /></Provider>
             ReactDOM.render(window, document.querySelector(".modaleWindow"))
             break;
         default:
@@ -30,14 +41,14 @@ const renderModalWindow = (key,output) => {
 const deleteModalWindow = () => {
     ReactDOM.unmountComponentAtNode(document.querySelector(".modaleWindow"))
 }
-const Content = (props) => {
+const Content = ({ winType }) => {
 
     useEffect(() => {
-        let key = 0
-        props.isNewTask === true ? renderModalWindow('task', props.isTask) : key++;
-        props.isTaskList === true ? renderModalWindow('taskList') : key++;
-        key == 2 ? deleteModalWindow() : key = 0;
-    }, [props.isNewTask, props.isTaskList])
+        if (winType == null)
+            deleteModalWindow();
+        renderModalWindow(winType);
+
+    }, [winType])
 
 
     return <div className='content'>
@@ -49,9 +60,7 @@ const Content = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        isNewTask: state.render.isNewTask,
-        isTaskList: state.render.isTaskList,
-        isTask: state.render.isTask,
+        winType: state.render.winType
     }
 }
 

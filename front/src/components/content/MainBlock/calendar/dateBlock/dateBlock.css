@@ -1,4 +1,5 @@
 .dateBlock{
+    margin-top: 1vh;
 border: 0.3vh solid black;
 background-color: white;  
 display: flex;

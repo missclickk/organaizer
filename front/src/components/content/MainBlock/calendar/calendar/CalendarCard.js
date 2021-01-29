@@ -33,7 +33,7 @@ const CalendarCard=(props)=>{
     }
 
     const onClickHandler=(event)=>{
-      props.openTaskList(event.target.id,true);}
+      props.openTaskList(event.target.id,"taskList");}
   
 
 return <div onClick={onClickHandler} id={props.i} className="calendar__card">{ createContent({...props})}</div>

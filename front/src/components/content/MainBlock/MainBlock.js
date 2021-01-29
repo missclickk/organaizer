@@ -5,22 +5,24 @@ import Calendar from "./calendar/calendar/Calendar"
 import WeekList from './calendar/weekList/WeekList'
 import DateBlock from "./calendar/dateBlock/dateBlock"
 import Buttons from './buttons/Buttons'
+import ToDoList from './toDoList/ToDoList'
 
+const MainBlock=({mode})=>{
 
-const MainBlock=(props)=>{
-const renderElem= props.mode==="CALENDAR" ? <Calendar/>:<WeekList/> ;
 return <div className='content__main'>
     <div className='content__main__header'>
-    <DateBlock/>
+   {mode==="TD_LIST" ? null:<DateBlock/>}
     <Buttons/>
     </div>
-    {renderElem}
+    <div className="content__main__items-conteiner">
+    {mode==="TD_LIST" ? <ToDoList/>:  mode==='CALENDAR'?   <Calendar/>:<WeekList/>}
+    </div>
 </div>
 }
 
 const mapStateToProps=(state)=>{
     return{
-        mode:state.date.printMode
+        mode:state.render.mainBlockItem
     }
 }
 

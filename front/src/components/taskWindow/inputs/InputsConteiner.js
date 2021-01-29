@@ -9,22 +9,45 @@ import UserInput from './UserInput'
 
 
 
-const InputsConteiner = ({ output }) => (output === true ? [
-  <div className='task-conteiner__input-conteiner'>
-    <TitleInput output={output} />
-    <DescriptionInput output={output} />
-    <TimeInput output={output} />
-    <PeriodInput output={output} />
-  </div>,
-]
-  : [<div className='task-conteiner__input-conteiner'>
-    <TitleInput output={output} />
-    <DescriptionInput output={output} />
-    <DateInput />
-    <TimeInput output={output} />
-    <PeriodInput output={output} />
-    <UserInput />
-  </div>,
-  ])
+const InputsConteiner = ({ type }) => {
+  let commponent;
+  switch (type) {
+    case 'taskOutput':
+      commponent = <div className='task-conteiner__input-conteiner'>
+        <TitleInput type={type} />
+        <DescriptionInput type={type} />
+        <TimeInput type={type} />
+        <PeriodInput type={type} />
+      </div>
+      break;
+    case 'todo':
+      commponent = <div className='task-conteiner__input-conteiner'>
+        <TitleInput type={type} />
+        <UserInput />
+      </div>
+      break;
+    case 'taskInput':
+      commponent = <div className='task-conteiner__input-conteiner'>
+        <TitleInput type={type} />
+        <DescriptionInput type={type} />
+        <DateInput />
+        <TimeInput type={type} />
+        <PeriodInput type={type} />
+        <UserInput />
+      </div>
+      break;
+    case 'todoTask':
+      commponent = <div className='task-conteiner__input-conteiner'>
+        <TitleInput type={type} />
+      </div>
+      break;
+
+    default:
+      break;
+  }
+
+console.log(commponent);
+  return  commponent;
+}
 
 export default InputsConteiner;
