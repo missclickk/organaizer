@@ -3,6 +3,8 @@ import { getNumberOfDays, getWeekRange } from './dateHandlers'
 const empty = () => {
 };
 
+
+
 const checkEmptyString = (str) => {
     if (str === "")
         return false;
@@ -80,9 +82,62 @@ const taskInRange = (period, fDate, secDate) => {
 
 }
 
+let breakKey = 0;
+const quickSort = (arr, supprotElemHour = 12, supprotElemMin = 0) => {
+    breakKey++;
+  
+    if (breakKey === 100)
+        return arr;
+
+    if (arr.length <= 1) return arr;
+    let leftArr = [];
+    let rightArr = [];
+
+    arr.forEach(e => {
+        if (e.length !== 0) {
+            const buf = e.time.split(':');
+            if ((buf[0] === supprotElemHour && buf[1] > supprotElemMin) || buf[0] > supprotElemHour)
+                rightArr.push(e);
+            else {
+                leftArr.push(e);
+            }
+        }
+    });
+    let timeR = [];
+    let timeL = [];
+    if (leftArr.length === 0) {
+        timeR = rightArr[Math.floor(rightArr.length / 2 - 1)].time.split(':')
+        return quickSort(rightArr, timeR[0], timeR[1])
+    }
+    if (rightArr.length == 0) {
+        timeL = leftArr[Math.floor(leftArr.length / 2 - 1)].time.split(':')
+        return quickSort(leftArr, timeL[0], timeL[1]);
+    }
+
+    timeL = leftArr[Math.floor(leftArr.length / 2)].time.split(':')
+    timeR = rightArr[Math.floor(rightArr.length / 2)].time.split(':')
+
+    return quickSort(leftArr, timeL[0], timeL[1]).concat(quickSort(rightArr, timeR[0], timeR[1]))
+}
+
+export const sortByTime = (arr) => {
+  
+    breakKey = 0;
+    return quickSort(arr);
+}
+const sortTasksForAllDays = (tasks) => {
+
+    tasks.forEach(e => {
+        if (e.length != 0)
+            e = sortByTime(e);
+    })
+
+    return tasks;
+}
 
 
 export const getTasksForCurrentWeek = (tasks, buf) => {
+ 
     let currentTasks = [];
     const range = getWeekRange(buf);
 
@@ -99,12 +154,11 @@ export const getTasksForCurrentWeek = (tasks, buf) => {
         i.add(1, 'd');
         j++;
     }
-  
+   // console.log(sortTasksForAllDays(currentTasks));
     return currentTasks;
 }
 
 export const getTasksForCurrentMonth = (tasks, buf) => {
-    console.log(tasks);
     let currentTasks = [];
     let date = moment(buf);
     const lenght = getNumberOfDays(date);
@@ -121,12 +175,7 @@ export const getTasksForCurrentMonth = (tasks, buf) => {
         })
 
     }
-    console.log(currentTasks);
     return currentTasks;
 }
 
 
-/*
-clone.date()>wRange.last.date() && clone.month()<wRange.last.month())
-               ||(clone.date()<=wRange.last.date() &&  clone.month()<=wRange.last.month())
-             */

@@ -1,6 +1,6 @@
 import moment from 'moment'        
 import { CREATE_TASK, CLEAR_ERROR_LIST, IS_TASK_WIN, CHANGE_DATE, IS_EXISTING_TASK, IS_TASK_LIST } from './types'
-import { formatTask,   getTasksForCurrentMonth,getTasksForCurrentWeek } from '../functions/tasksHandlers'
+import { formatTask,   getTasksForCurrentMonth,getTasksForCurrentWeek,sortByTime } from '../functions/tasksHandlers'
 import { changeMonthWithFlag, changeWeekWithFlag} from './../functions/dateHandlers'
 const emptyArrM = new Array(31).fill([]);
 const emptyArrW = new Array(7).fill([]);
@@ -58,8 +58,7 @@ export const taskReducer = (state = initialState, action) => {
 
         case IS_TASK_LIST:
             const rTasks = action.payload === -1 ? [] : state.currentMonthTasks[Math.floor(action.payload)]
-
-            return { ...state, closeWin: false, renderTask: rTasks }
+            return { ...state, closeWin: false, renderTask:sortByTime(rTasks) }
 
         case CHANGE_DATE:
             const date = action.mode==="CALENDAR"? changeMonthWithFlag(action.payload, state.date): changeWeekWithFlag(action.payload, state.date);

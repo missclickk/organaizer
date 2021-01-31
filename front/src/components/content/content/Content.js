@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import './content.css'
+import { BrowserRouter } from 'react-router-dom'
 import ChatBlock from './../ChatBlock/ChatBlock'
 import MainBlock from './../MainBlock/MainBlock'
 import TaskWindow from './../../taskWindow/TaskWindow'
@@ -11,7 +12,7 @@ const renderModalWindow = (key, output = -1) => {
     let window;
     switch (key) {
         case 'inputTask':
-            window = (<Provider store={store}> <TaskWindow type="taskInput" /></Provider>);
+            window = (<BrowserRouter><Provider store={store}> <TaskWindow type="taskInput" /></Provider></BrowserRouter>);
             ReactDOM.render(window, document.querySelector(".modaleWindow"))
             break;
         case 'outputTask':

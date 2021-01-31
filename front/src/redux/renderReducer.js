@@ -3,7 +3,7 @@ const TD_LIST='TD_LIST'
 //CALENDAR WEEK_LIST TD_LIST main Block ITEM
 //inputTask outputTask taskList todo todoTask    winType 
 const initialState = {
-    mainBlockItem:TD_LIST,
+    mainBlockItem:'CALENDAR',
     winType:null,
     todoBtns:false
 }

@@ -1,10 +1,13 @@
 import React from 'react';
-import styles from "./header.module.css"
-
+import  "./header.css"
 const   Header=()=>{
-
-    return <div className={styles.background}>
-        <h1>HEADER</h1>
+    return <div className='header'>
+        <div className='header__empty-block first' ></div>
+        <h1 className="header__name">ОБЫЧНЫЙ ОРГОНАЙЗЕР</h1>
+        <div className='header__empty-block second'></div>
+       <div className="header__btns-bar ">
+           <div className="addUser"></div>
+           </div> 
 
         </div>
 };

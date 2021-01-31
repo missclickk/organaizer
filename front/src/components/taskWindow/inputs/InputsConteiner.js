@@ -46,7 +46,6 @@ const InputsConteiner = ({ type }) => {
       break;
   }
 
-console.log(commponent);
   return  commponent;
 }
 

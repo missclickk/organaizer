@@ -41,7 +41,7 @@ useEffect(()=>{
     let bodyItems=[];
 
     for(let item in tasks[title])
-                   bodyItems.push(<TdCardItem  value={tasks[title][item]}  parent={title} name={item}/>)
+                   bodyItems.push(<TdCardItem  key={title} value={tasks[title][item]}  parent={title} name={item}/>)
 
 
     return <div className="tdList-conteiner__cards-conteiner__card" id={`target${id}`} onMouseOver={eventHandler} onMouseOut={eventHandler}>

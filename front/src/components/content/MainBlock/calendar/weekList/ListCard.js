@@ -4,8 +4,8 @@ import Task from './Task'
 const ListCard=(props)=>{
     let arr=[];
     if(props.tasks.length!==0)
-    arr=props.tasks.map((e)=>{
-        return<Task task={e}/>
+    arr=props.tasks.map((e,i)=>{
+        return<Task key={i} task={e}/>
     })
 
     return <div className="week-list-card">
