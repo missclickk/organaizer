@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import './WeekList.css'
 import ListCard from './ListCard'
-import {sortByTime} from './../../../../../functions/tasksHandlers'
+import {sortByTime} from './../../../../../../functions/tasksHandlers'
 const WeekList = ({ weekRange, currentWeekTasks }) => {
     let weekDays = [];
     let clone =moment( weekRange.first);

@@ -1,7 +1,7 @@
 import React from 'react'
 import './TaskList.css'
 import {connect} from 'react-redux'
-import {TaskList} from '../../redux/actions'
+import {TaskList} from './../../../redux/actions'
 import CloseBtn from './../Buttons/CloseBtn'
 import ListItem from './ListItem'
 const TaskListWin=(props)=>{

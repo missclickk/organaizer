@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import './TaskWindow.css'
-import { WinTask, createTask, clearErrorList,craeteTodoList ,createTodoTask} from './../../redux/actions'
+import { WinTask, createTask, clearErrorList,craeteTodoList ,createTodoTask} from './../../../redux/actions'
 
 import CloseBtn from './../Buttons/CloseBtn'
 import OkBtn from './../Buttons/OkBtn'

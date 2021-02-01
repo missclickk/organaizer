@@ -1,7 +1,7 @@
 import React from "react"
 import {connect} from 'react-redux'
 import "./writeArea.css"
-import {addMessage} from "./../../../../redux/actions"
+import {addMessage} from "./../../../../../redux/actions"
 const WriteArea=(props)=>{
 
 

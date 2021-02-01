@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { connect } from 'react-redux'
 import "./dateBlock.css"
-import { changeDate } from "./../../../../../redux/actions"
+import { changeDate } from "./../../../../../../redux/actions"
 const DateBlock = ({ mode, weekRange, changeDate, date }) => {
     const [dateFlag, setDateFlag] = useState(true);
 

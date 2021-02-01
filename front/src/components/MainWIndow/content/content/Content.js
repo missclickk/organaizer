@@ -7,7 +7,7 @@ import ChatBlock from './../ChatBlock/ChatBlock'
 import MainBlock from './../MainBlock/MainBlock'
 import TaskWindow from './../../taskWindow/TaskWindow'
 import TaskListWin from './../../TaskList/TaskListWin'
-import { store } from './../../../index'
+import { store } from './../../../../index'
 const renderModalWindow = (key, output = -1) => {
     let window;
     switch (key) {

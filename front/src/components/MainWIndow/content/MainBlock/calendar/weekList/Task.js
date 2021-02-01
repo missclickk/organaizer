@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { TaskWinMutate } from './../../../../../redux/actions'
+import { TaskWinMutate } from './../../../../../../redux/actions'
 import './WeekList.css'
 
 const Task = ({ task, TaskWinMutate }) => {

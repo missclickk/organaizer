@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {changeTodoItem} from './../../../../redux/actions'
+import {changeTodoItem} from './../../../../../redux/actions'
 import './tdList.css'
 
 const TdCardItem=({value,name,parent,changeTodoItem})=>{

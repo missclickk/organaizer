@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { WinTask, changeMainBlock } from './../../../../redux/actions'
+import { WinTask, changeMainBlock } from './../../../../../redux/actions'
 import "./Buttons.css"
 
 const Buttons = ({ mainBlockItem, changeMainBlock, openWinTask }) => {

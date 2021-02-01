@@ -1,5 +1,80 @@
+.login-win-conteiner{
+    background: linear-gradient(to top left,#f8f6c5,#e6cbb8 );
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:#33332d ;
+    font-size: 2vh;
+}
+
 .login-win{
-    background-color: red;
-    width: 100px;
-    height: 100px;
+    background: linear-gradient(to top left,#faf8b8,#EDD8C9 );
+    border: 3px solid #706F5B;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px #B0AE8F;
+    width: 65vh;
+    height: 65vh;
+display: flex;
+align-items: center;
+    flex-direction: column;
+}
+
+.login-win__from{
+    font-size: 3vh;
+    margin-top:5vh ;
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+.login-win__from__label{
+
+}
+.login-win__from__input{
+    font-size: 3vh;
+background: linear-gradient(to top left,#F3F1C6,#EDD8C9 );
+height: 3vh;
+min-width: 15vw;
+border: 2px solid#33332d;
+border-radius: 3px;
+}
+
+.login-win__from__input:focus{
+    border: 3px solid #42423c;
+    outline :0;
+}
+
+.login-win__submitBtn{
+
+    cursor: pointer;
+    width: 6vh;
+    text-align: center;
+    font-size: 3vh;
+    border-radius: 3px;
+    margin-top:13vh;
+    border: 2px solid#33332d;
+}
+
+.login-win__authSpan{
+    color:#928c10;
+}
+
+.login-win__authSpan:hover{
+    cursor: pointer;
+    color:#c2bc0c;
+}
+
+
+.login-win__text{
+ margin-top:0.5vh;
+
+}
+
+
+.login-win__buf{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5vh;
+    margin-top: 1.5vh;
 }

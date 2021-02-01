@@ -2,7 +2,7 @@ import React,{useEffect,useState} from 'react'
 import { connect } from 'react-redux'
 import './tdList.css'
 import DeleteBtn from './../../../Buttons/DeleteBtn'
-import { isTodoButtons,WinTask,deleteTodoCard ,setTodoHash} from './../../../../redux/actions'
+import { isTodoButtons,WinTask,deleteTodoCard ,setTodoHash} from './../../../../../redux/actions'
 import TdCardItem from './TdCardItem'
 import AddBtn from './../../../Buttons/AddBtn'
 const TdCard = ({ title, tasks,isTodoButtons,openWinTask,id, deleteTodoCard,setTodoHash }) => {

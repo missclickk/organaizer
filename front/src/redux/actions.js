@@ -1,4 +1,4 @@
-import { TODO_ITEM_IS_CHANGED,GET_TODO_HASH,CREATE_TODO_TASK,CHANGE_MAIN_BLOCK,CHANGE_DATE,ADD_MESSAGE,IS_TASK_WIN,CREATE_TASK,CLEAR_ERROR_LIST,IS_EXISTING_TASK,IS_TASK_LIST, CREATE_TODO_LIST,TODO_BUTTONS,DEL_TODO_CARD} from "./types"
+import {SWITCH_USER_WIN ,IS_LOGIN,TODO_ITEM_IS_CHANGED,GET_TODO_HASH,CREATE_TODO_TASK,CHANGE_MAIN_BLOCK,CHANGE_DATE,ADD_MESSAGE,IS_TASK_WIN,CREATE_TASK,CLEAR_ERROR_LIST,IS_EXISTING_TASK,IS_TASK_LIST, CREATE_TODO_LIST,TODO_BUTTONS,DEL_TODO_CARD} from "./types"
 export function changeDate(flag,mode){
     return{ 
             type:CHANGE_DATE,
@@ -113,4 +113,19 @@ export function changeTodoItem(item,parent){
         parent:parent
 
     } 
+}
+
+
+export function isLogin(obj){
+    return{
+        type:IS_LOGIN,
+        payload:obj
+    }
+}
+
+export function switchUserWin(type){
+    return{
+        type:SWITCH_USER_WIN,
+        payload:type
+    }
 }

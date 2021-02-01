@@ -1,19 +1,25 @@
 import React from "react"
-import { Route,Redirect } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
+import {connect}from 'react-redux'
 import "./index.css"
-import  Header from "./components/header/Header"
-import Content from './components/content/content/Content'
+import MainWindow from './components/MainWIndow/MainWindow'
 import LoginWin from './components/loginWin/LoginWin'
-    localStorage.setItem('login',false)
-function App() {
+function App({isLogin}) {
+console.log(isLogin);
+   let item=isLogin=='login'? <Redirect from='/*' to='app'/>: <Redirect from='/*' to='login'/>;
   return (
     <div className="App">
-      < Header/>
-      <Redirect from='/' to='/LOGIN'/>
-      <Content/>
-      <Route path="/LOGIN"><LoginWin/></Route>
+      {item}
+      <Route exact path='/app'><MainWindow/></Route>
+      <Route exact path='/login'><LoginWin/></Route>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps=(state)=>{
+  return {
+    isLogin:state.user.isLogin
+  }
+}
+
+export default connect(mapStateToProps,null)(App);

@@ -26,3 +26,10 @@ export const DEL_TODO_CARD='TODO/DEL_CARD'
 export const CREATE_TODO_TASK='TODO/CREATE_TASK'
 export const GET_TODO_HASH='TODO/GET_HASH'
 export const TODO_ITEM_IS_CHANGED='TODO/ITEM_IS_CHANGED'
+
+
+
+//user
+
+export const IS_LOGIN='USER/IS_LOGIN';
+export const SWITCH_USER_WIN='USER/SWITCH_WINDOW'
