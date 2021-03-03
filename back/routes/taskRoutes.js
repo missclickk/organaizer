@@ -53,8 +53,9 @@ router.get('/oneTask', async (req, res) => {
 
 router.get('/TasksForRange', async (req, res) => {
   try {
-    const { room, login, mode, date } = req.headers;
-    const tasks = await getTasks(mode, moment(date), login, room);
+    
+    const { room, login, mode, _date } = req.headers;
+    const tasks = await getTasks(mode, moment(_date), login, room);
     return res.status(200).json({ tasks });
   }
   catch (e) {

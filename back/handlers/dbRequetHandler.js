@@ -24,11 +24,10 @@ const getItemWithConditionally = async (model,filds, fildsVal, returnVals =[]) =
 
 const  getItemWithOrConditionally=async (model, filds, fildsVal, fildsOr, fildsValOr, returnVals = []) => {
     try {
-        console.log(fildsValOr);
         const conditions = filds.map((e, i) => { return { [e]: fildsVal[i] } });
         const conditionsOr = fildsOr.map((e, i) => { return { [e]: fildsValOr[i] } });
-        return  await model.find({},returnVals.reduce((a, val) => a + ' ' + val, " ")).or([{ $and: conditions }, { $and: conditionsOr }] ) 
-        //
+    const test=  await model.find({},returnVals.reduce((a, val) => a + ' ' + val, " ")).or([{ $and: conditions }, { $and: conditionsOr }] ) 
+    return test;
     }
     catch (e) {
         console.log(e);

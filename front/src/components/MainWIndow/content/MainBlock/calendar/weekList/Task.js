@@ -8,7 +8,7 @@ const Task = ({ task, TaskWinMutate,getOneTask }) => {
         getOneTask(event.target.id);
         TaskWinMutate('outputTask');
     }
-    return <div id={task.id} className='week-list-conteiner__card__tasks-conteiner__task' onClick={onClickHandler}>
+    return <div id={task._id} className='week-list-conteiner__card__tasks-conteiner__task' onClick={onClickHandler}>
         {`${task.time} ${task.title}`}
     </div>
 }

@@ -40,8 +40,8 @@ router.post('/lists',
 
 router.get('/lists', async (req, res) => {
         try {
-                const user = req.headers.user;
-                const room = req.headers.room;
+                
+                const {user,room}=req.headers;
                 const filds=[`users.${user}`,'room'];
                 const fildsVal=[{ '$exists' : false },room];
                 const filds1=[`users.${user}`,'room'];
@@ -49,11 +49,9 @@ router.get('/lists', async (req, res) => {
                 const items = await  getItemWithOrConditionally(Todo,filds,fildsVal,filds1,fildsVal1, ['_id', 'title', 'tasks']);
                 if (!items)
                      return   res.status(400).json({ error: 'списки не найдены' })
-                let obj = {};
-                items.forEach(e => {
-                        obj[e._id] = { title: e.title, tasks: e.tasks }
-                });
-              return  res.status(200).json({ todo: obj });
+
+               
+              return  res.status(200).json({ todo: items });
         }
         catch (e) {
                 console.log(e);
