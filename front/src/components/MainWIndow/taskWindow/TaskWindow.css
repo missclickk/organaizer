@@ -49,19 +49,21 @@
 
 .task-conteiner__users-conteiner{
     display: flex;
-    justify-content: space-around;
+    margin-left: 3vh;
+    flex-direction: column;
 
 }
 
 .task-conteiner__description-conteiner__description-const{
     cursor: pointer;
-    
+    overflow:hidden scroll ;
     border: 0px solid whitesmoke;
     background-color: whitesmoke;
     font-family: 'Balsamiq Sans', cursive;
     font-size: 3vh;
     width: 45vh;
     height: 15vh;
+    resize: none;
 }
 
 .conteiner-background{

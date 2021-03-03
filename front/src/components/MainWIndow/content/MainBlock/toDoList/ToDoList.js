@@ -1,15 +1,22 @@
-import React,{useEffect} from 'react'
+import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import './tdList.css'
 import TdCard from './TdCard.js'
-const ToDoList = ({ todoTasksHash }) => {
-    let fin=[];
-    let arr=[];
-for(let title in todoTasksHash)
-arr.push(title); 
-fin=arr.map((e,i)=> <TdCard key={i} id={i} title={e}/>)
+const ToDoList = ({ todoTasks }) => {
 
-    return  <div className='tdList-conteiner'>{ todoTasksHash.length === 0 ?<h1 className="tdList__message">СЕЙЧАС ЗДЕСЬ ПУСТО</h1>
+
+useEffect(()=>{
+    
+})
+
+
+let i=0;
+let fin=[];
+for(let obj in todoTasks){ 
+    fin.push(<TdCard key={i} id={obj} title={todoTasks[obj].title} tasks={todoTasks[obj].tasks}/>);
+i++;
+}
+    return  <div className='tdList-conteiner'>{ todoTasks.length === 0 ?<h1 className="tdList__message">СЕЙЧАС ЗДЕСЬ ПУСТО</h1>
         : <div className="tdList-conteiner__cards-conteiner">
            {fin}
         </div>}
@@ -21,8 +28,11 @@ fin=arr.map((e,i)=> <TdCard key={i} id={i} title={e}/>)
 const mapStateToProps = (state) => {
 
     return {
-        todoTasksHash: state.todo.todoTasksHash,
+        todoTasks: state.todo.todoTasks,
     }
 }
+const mapDispatchToProps={
+    
+}
 
-export default connect(mapStateToProps, null)(ToDoList);
+export default connect(mapStateToProps,mapDispatchToProps)(ToDoList);

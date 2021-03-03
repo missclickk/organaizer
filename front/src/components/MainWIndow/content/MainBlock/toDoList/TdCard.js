@@ -2,10 +2,10 @@ import React,{useEffect,useState} from 'react'
 import { connect } from 'react-redux'
 import './tdList.css'
 import DeleteBtn from './../../../Buttons/DeleteBtn'
-import { isTodoButtons,WinTask,deleteTodoCard ,setTodoHash} from './../../../../../redux/actions'
+import { isTodoButtons,WinTask,deleteTodo,setTodoId ,getTodos} from './../../../../../redux/actions'
 import TdCardItem from './TdCardItem'
 import AddBtn from './../../../Buttons/AddBtn'
-const TdCard = ({ title, tasks,isTodoButtons,openWinTask,id, deleteTodoCard,setTodoHash }) => {
+const TdCard = ({ login,room,title, tasks,isTodoButtons,openWinTask,id, deleteTodo,setTodoId,todoBtns,getTodos}) => {
 
 const [flag,setFlag]=useState(false);
 
@@ -14,7 +14,7 @@ useEffect(()=>{
      document.getElementById(`target${id}`).querySelector(".btnsWrapper").classList.add('visibilityHiden');
      else
      document.getElementById(`target${id}`).querySelector(".btnsWrapper").classList.remove('visibilityHiden');
-},[flag])
+},[flag,id])
 
 
 
@@ -27,45 +27,45 @@ useEffect(()=>{
             X: event.clientX,
             Y: event.clientY
         }
-        if (event.type === 'mouseover'){
+        if (event.type === 'mouseover' && todoBtns===false){
+            
             setFlag(true);
             isTodoButtons(true);
         }
-        if (!cursorInside(obj)){
+        if (!cursorInside(obj) && todoBtns===true){
+        
             setFlag(false);
             isTodoButtons(false);
         }
     }
-
-
-    let bodyItems=[];
-
-    for(let item in tasks[title])
-                   bodyItems.push(<TdCardItem  key={title} value={tasks[title][item]}  parent={title} name={item}/>)
-
-
-    return <div className="tdList-conteiner__cards-conteiner__card" id={`target${id}`} onMouseOver={eventHandler} onMouseOut={eventHandler}>
+   
+   
+   return <div className="tdList-conteiner__cards-conteiner__card" id={`target${id}`} onMouseOver={eventHandler} onMouseOut={eventHandler}>
         <div className="tdList-conteiner__cards-conteiner__card__header">
             <div className="tdList-conteiner__cards-conteiner__card__header__title">{title}</div>
             <div className="btnsWrapper">
-                <DeleteBtn  funArr={[deleteTodoCard]} args={{ 0: [title]}}/>
-                <AddBtn  funArr={[openWinTask,setTodoHash]} args={{ 0: ['todoTask'],1:[title]}} />
+                <DeleteBtn  funArr={[deleteTodo,getTodos]} args={{ 0: [id],1:[login,room]}}/>
+                <AddBtn  funArr={[openWinTask,setTodoId]} args={{ 0: ['todoTask'],1:[id]}} />
                 </div>
         </div>
         <div className="tdList-conteiner__cards-conteiner__card__body">
-            {bodyItems}
+            {tasks.map((e,i)=> <TdCardItem  key={i} index={i} value={e.value}  parent={id} name={e.name}/>)}
         </div>
     </div>
 }
+
+const mapStateToPorops=(state)=>( {
+        todoBtns:state.render.todoBtns,
+        login:state.user.loginUser,
+        room:state.user.roomID
+    }
+)
 const mapDispatchToProps = {
     isTodoButtons,
     openWinTask:WinTask,
-    deleteTodoCard,
-    setTodoHash
+    deleteTodo,
+    setTodoId,
+    getTodos
 }
-const mapStateToProps = (state) => {
-    return {
-      tasks:state.todo.todoTasksHash
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(TdCard);
+
+export default connect( mapStateToPorops, mapDispatchToProps)(TdCard);

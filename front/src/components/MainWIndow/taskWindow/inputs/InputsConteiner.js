@@ -13,6 +13,7 @@ const InputsConteiner = ({ type }) => {
   let commponent;
   switch (type) {
     case 'taskOutput':
+      
       commponent = <div className='task-conteiner__input-conteiner'>
         <TitleInput type={type} />
         <DescriptionInput type={type} />

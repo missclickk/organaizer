@@ -4,9 +4,10 @@ import {connect}from 'react-redux'
 import "./index.css"
 import MainWindow from './components/MainWIndow/MainWindow'
 import LoginWin from './components/loginWin/LoginWin'
+
 function App({isLogin}) {
-console.log(isLogin);
-   let item=isLogin=='login'? <Redirect from='/*' to='app'/>: <Redirect from='/*' to='login'/>;
+
+   let item=isLogin==='login'? <Redirect from='/*' to='app'/>: <Redirect from='/*' to='login'/>;
   return (
     <div className="App">
       {item}
@@ -18,7 +19,7 @@ console.log(isLogin);
 
 const mapStateToProps=(state)=>{
   return {
-    isLogin:state.user.isLogin
+    isLogin:state.user.isLogin,
   }
 }
 

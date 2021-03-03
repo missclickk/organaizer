@@ -15,7 +15,7 @@
     border-radius: 10px;
     box-shadow: 10px 10px 10px #B0AE8F;
     width: 65vh;
-    height: 65vh;
+    height: 75vh;
 display: flex;
 align-items: center;
     flex-direction: column;
@@ -23,7 +23,6 @@ align-items: center;
 
 .login-win__from{
     font-size: 3vh;
-    margin-top:5vh ;
     display: flex;
     flex-direction: column;
     align-items: baseline;
@@ -45,16 +44,7 @@ border-radius: 3px;
     outline :0;
 }
 
-.login-win__submitBtn{
 
-    cursor: pointer;
-    width: 6vh;
-    text-align: center;
-    font-size: 3vh;
-    border-radius: 3px;
-    margin-top:13vh;
-    border: 2px solid#33332d;
-}
 
 .login-win__authSpan{
     color:#928c10;
@@ -77,4 +67,32 @@ border-radius: 3px;
     flex-direction: column;
     margin-bottom: 0.5vh;
     margin-top: 1.5vh;
+}
+
+
+.login-win__btn-wrapper{
+    display: flex;
+    margin-top: 2vh;
+ 
+}
+.login-win__submitBtn{
+    cursor: pointer;
+  
+    text-align: center;
+    font-size: 3vh;
+    border-radius: 3px;
+    border: 2px solid#33332d;
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+    min-width: 13vw;
+
+}
+.login-win__backBtn{
+    cursor: pointer;
+    width: 6vh;
+    text-align: center;
+    font-size: 3vh;
+    border-radius: 3px;
+    width: 9.9vh;
+    border: 2px solid#33332d;
 }

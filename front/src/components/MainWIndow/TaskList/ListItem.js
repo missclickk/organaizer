@@ -1,20 +1,22 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import './TaskList.css'
-import {TaskWinMutate} from '../../../redux/actions'
-const ListItem = ({hash,time,title,TaskWinMutate}) => {
+import {TaskWinMutate,getOneTask} from '../../../redux/actions'
+const ListItem = ({itemId,time,title,TaskWinMutate,getOneTask}) => {
 const onClickHandker=()=>{
-
-    TaskWinMutate(hash,"outputTask")
+    console.log(itemId);
+    getOneTask(itemId);
+    TaskWinMutate("outputTask");
 }
-return <div id={hash}  className='list-conteiner__list-card__task-card'  onClick={onClickHandker}>
+return <div id={itemId}  className='list-conteiner__list-card__task-card'  onClick={onClickHandker}>
     <div className='list-conteiner__list-card__task-card__time'>{time} </div>
     <div className='list-conteiner__list-card__task-card__title'>{title} </div>
 </div> 
 }
 
 const mapDispatchToProps={
-    TaskWinMutate
+    TaskWinMutate,
+    getOneTask
 }
 
 export default connect(null,mapDispatchToProps)(ListItem);

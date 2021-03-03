@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { connect } from 'react-redux'
 import "./dateBlock.css"
-import { changeDate } from "./../../../../../../redux/actions"
-const DateBlock = ({ mode, weekRange, changeDate, date }) => {
+import { changeDate,getTasks } from "./../../../../../../redux/actions"
+const DateBlock = ({login,room,printMode ,mode, weekRange, changeDate,getTasks, date }) => {
     const [dateFlag, setDateFlag] = useState(true);
 
     useEffect(() => {
@@ -17,10 +17,12 @@ const DateBlock = ({ mode, weekRange, changeDate, date }) => {
         }
     },[setDateFlag,date, dateFlag, mode, weekRange.first,weekRange.last])
 
-    const onClickHandler = event => {
+    const onClickHandler =  async(event) => {
         changeDate(event.target.name, mode);
+         getTasks(printMode, date,room,login);
         setDateFlag(true);
     }
+    
     return <div className="dateBlock">
         <div className="dateBlock__arrowLeft" name="prev" onClick={onClickHandler}><img name="prev" className="dateBlock__arrowImg" alt="Влево" src="./arrowLeft.jpeg" /></div>
         <div className="dateBlock__date"></div>
@@ -33,12 +35,16 @@ const DateBlock = ({ mode, weekRange, changeDate, date }) => {
 const mapStateToProps = state => {
 
     return {
+        printMode:state.render.mainBlockItem,
         date: state.date.date,
         mode: state.render.mainBlockItem,
         weekRange: state.date.weekRange,
+        login:state.user.loginUser,
+        room:state.user.roomID
     }
 }
 const mapDispatchToProps = {
-    changeDate
+    changeDate,
+    getTasks
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DateBlock);

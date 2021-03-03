@@ -42,13 +42,12 @@ const renderModalWindow = (key, output = -1) => {
 const deleteModalWindow = () => {
     ReactDOM.unmountComponentAtNode(document.querySelector(".modaleWindow"))
 }
-const Content = ({ winType }) => {
-
+const Content = ({ winType,date }) => {
+ 
     useEffect(() => {
         if (winType == null)
             deleteModalWindow();
         renderModalWindow(winType);
-
     }, [winType])
 
 
@@ -61,7 +60,8 @@ const Content = ({ winType }) => {
 
 const mapStateToProps = (state) => {
     return {
-        winType: state.render.winType
+        winType: state.render.winType,
+        date:state.date.date
     }
 }
 

@@ -1,19 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { TaskWinMutate } from './../../../../../../redux/actions'
+import { TaskWinMutate,getOneTask } from './../../../../../../redux/actions'
 import './WeekList.css'
 
-const Task = ({ task, TaskWinMutate }) => {
-    const onClickHandler = () => {
-        TaskWinMutate(task.title,'outputTask')
+const Task = ({ task, TaskWinMutate,getOneTask }) => {
+    const onClickHandler = (event) => {
+        getOneTask(event.target.id);
+        TaskWinMutate('outputTask');
     }
-    return <div className='week-list-conteiner__card__tasks-conteiner__task' onClick={onClickHandler}>
+    return <div id={task.id} className='week-list-conteiner__card__tasks-conteiner__task' onClick={onClickHandler}>
         {`${task.time} ${task.title}`}
     </div>
 }
 
 
 const mapDispathToProps = {
-    TaskWinMutate
+    TaskWinMutate,
+    getOneTask
 }
 export default connect(null,mapDispathToProps)(Task);
