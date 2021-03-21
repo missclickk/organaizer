@@ -1,13 +1,18 @@
 import React,{useEffect} from 'react'
 import {connect} from 'react-redux'
 import "./messageArea.css"
+import  Message from './Message'
+
+const MessageArea=({messages})=>{
+    useEffect(()=>{ document.querySelector(".message-area").value=messages
+    },[messages])
 
 
-const MessageArea=(props)=>{
-    useEffect(()=>{ document.querySelector(".messageArea").value=props.messages
-    },[props.messages])
-   
-    return <textarea readOnly="readonly" className="messageArea" />
+
+
+    return <div className="message-area" >
+        { messages.map(e=><Message login={e.loginUser} hour={e.hour} minute={e.minute} msg={e.msg}/>)}
+    </div>
 }   
 
 const mapStateToProps=(state)=>{

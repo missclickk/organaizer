@@ -1,10 +1,13 @@
 const { Router } = require('express');
 const { check, validationResult } = require('express-validator');
 const moment = require('moment');
+
 const Task = require('../models/Task');
-const { getItemByID, addItem } = require('./../handlers/dbRequetHandler');
-const { firstDateAreGreater } = require('./../handlers/dateHandlers')
+const Room = require('../models/Room');
+const { getItemByID, addItem,deleteItem } = require('./../handlers/dbRequetHandler');
+const { firstDateAreGreater} = require('./../handlers/dateHandlers')
 const { getTasks } = require('./../handlers/tasksHandlers');
+
 const router = Router();
 
 router.post('/oneTask',
@@ -36,7 +39,7 @@ router.post('/oneTask',
       return res.status(400).json({ message: errors.array() })
 
     const { task, room } = req.body;
-    console.log(task);
+ 
     if (await addItem(Task, { ...task, room }))
       res.status(200).json({ message: 'task created' });
     else res.status(400).json({ message: ["task don't added"] });
@@ -50,6 +53,15 @@ router.get('/oneTask', async (req, res) => {
   res.status(200).json(task);
 })
 
+router.delete('/oneTask',async(req,res)=>{
+  try {
+    await deleteItem(Task, "_id", req.headers.target);
+    res.status(200).json({ message: 'delete sucseeful' })
+}
+catch (e) {
+    res.status(400).json({ error: 'bad request' })
+}
+})
 
 router.get('/TasksForRange', async (req, res) => {
   try {

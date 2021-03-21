@@ -1,6 +1,5 @@
-import {CHANGE_USER_LIST, OPEN_APP, SET_ERROR_LIST_U, CHANGE_TASK_VALUE, CHANGE_ID, SET_TODOS, SET_ONE_TASK, SET_TASKS_D, END_LOADING, START_LOADING, SET_ERROR_LIST_T, SET_TASKS_M, SET_TASKS_W, SWITCH_USER_WIN, IS_LOGIN, CHANGE_MAIN_BLOCK, CHANGE_DATE, ADD_MESSAGE, IS_TASK_WIN, CLEAR_ERROR_LIST, IS_EXISTING_TASK, IS_TASK_LIST, TODO_BUTTONS} from "./types"
-
-
+import {CONFIRMED_REG,INCOMIG_MSG,DELETE_ONE_TASK,TYPING,CHANGE_USER_LIST, OPEN_APP, SET_ERROR_LIST_U, CHANGE_TASK_VALUE, CHANGE_ID, SET_TODOS, SET_ONE_TASK, SET_TASKS_D, END_LOADING, START_LOADING, SET_ERROR_LIST_T, SET_TASKS_M, SET_TASKS_W, SWITCH_USER_WIN, IS_LOGIN, CHANGE_MAIN_BLOCK, CHANGE_DATE, ADD_MESSAGE, IS_TASK_WIN, CLEAR_ERROR_LIST, IS_EXISTING_TASK, IS_TASK_LIST, TODO_BUTTONS, SOCKET_INIT} from "./types"
+import moment from "moment"
 
 
 
@@ -19,14 +18,40 @@ export function clearErrorList() {
 }
 
 //////////////////////////////////////////CHAT
-export function addMessage(value) {
-    return {
-        type: ADD_MESSAGE,
-        payload: value
+export function handleIncomingMessage(message){
+    console.log(message);
+        let formattedMsg=message.map(e=>({hour:moment(e.date).hour(),minute:moment(e.date).minute(),loginUser:e.loginUser,msg:e.msg}));
+        return {
+        type: INCOMIG_MSG,
+        payload:formattedMsg,
+    }
+}
+export function addMessage(socket,req) {
+        const {date,roomID,loginUser,msg}=req;
+    return  dispatch=>{
+        socket.send(JSON.stringify({date,roomID,loginUser,msg,type:"msg"}));
+        dispatch({
+            type:ADD_MESSAGE,
+            payload:{hour:moment(date).hour(),minute:moment(date).minute(),loginUser,msg}
+        })
+
     }
 }
 
+export function typing(value){
+    return {type:TYPING,payload:value }
+}
 
+
+//////////////////////////////////////////SOCKET
+export function socketInit(roomId,callback){
+    
+    return {
+        type:SOCKET_INIT,
+        payload:callback,
+        roomId:roomId,
+    }
+}
 
 //////////////////////////////////////////DATE
 
@@ -182,6 +207,15 @@ export function getOneTask(id) {
         const response = await fetch('/api/task/oneTask', { method: 'GET', headers });
         const json = await response.json();
         dispatch({ type: SET_ONE_TASK, payload: json });
+        dispatch(endLoading());
+    }
+}
+
+export function deleteOneTask(id){
+    return async dispatch=>{
+        dispatch(startLoading());
+        const headers={'Content-type':'application/json',target:id};
+        const response = await fetch('/api/task/oneTask', { method: 'DELETE', headers });
         dispatch(endLoading());
     }
 }

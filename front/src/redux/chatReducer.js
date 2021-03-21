@@ -1,25 +1,21 @@
-import moment from 'moment'
-import { ADD_MESSAGE } from './types'
-const EMPTY_MESSAGE="НЕТ СООБЩЕНИЙ";
+import { INCOMIG_MSG, ADD_MESSAGE, TYPING } from './types'
+const EMPTY_MESSAGE = [{hour:"",minute:"",loginUser:" ",msg:"НЕТ СООБЩЕНИЙ"}];
 
 const initialState = {
-    messages: EMPTY_MESSAGE
-}
-
-
-const addToMessageList=(list,mes)=>{
-    if(list===EMPTY_MESSAGE)
-    list=``;
-   list=list+`\n${moment().hour()}.${moment().minute()}: ${mes}`;
-    return list;
+    messages: EMPTY_MESSAGE,
+    writeVal: ""
 }
 
 export const chatReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case ADD_MESSAGE:
-            console.log(123);
-            return {...state,messages:addToMessageList(state.messages,action.payload)}
+            return { ...state, messages: state.messages===EMPTY_MESSAGE?[action.payload]:[...state.messages,action.payload], writeVal: "" }
+        case INCOMIG_MSG:
+            return { ...state,messages: state.messages===EMPTY_MESSAGE?[...action.payload]:[...state.messages,...action.payload], writeVal: "" }
+        case TYPING:
+            return { ...state, writeVal: action.payload }
+
         default:
             return state;
     }

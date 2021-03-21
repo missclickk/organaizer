@@ -21,15 +21,7 @@ const initialState = {
     roomID:getItemFromLocalStorage('room'),
     usersList: [],
     errorList: []
-}/*
-const initialState = {
-    isLogin:'login',
-    usersList:["jopa",'tester1','i bezdarni yrod','mne strahno'],
-    loginUser: "jopa",
-    usersGroup: [],
-    errorList: null
 }
-*/
 export const userReducer = (state = initialState, action) => {
 
     switch (action.type) {

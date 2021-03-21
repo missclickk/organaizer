@@ -5,11 +5,13 @@ import {renderReducer} from './renderReducer'
 import {taskReducer} from './taskReducer'
 import {todoReducer} from './todoReducer'
 import {userReducer} from './userReducer'
+import {socketReducer} from './socketReducer'
 export const rootReducer=combineReducers({
     date: dateReducer,
     chat: chatReducer,
     render:renderReducer,
     task:taskReducer,
     todo:todoReducer,
-    user:userReducer
+    user:userReducer,
+    socket:socketReducer
 })

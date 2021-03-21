@@ -1,74 +1,24 @@
 const moment = require('moment');
 const Task = require('../models/Task');
-const { getNumberOfDays, getWeekRange } = require('./dateHandlers');
+const { getNumberOfDays, getWeekRange, compareDate } = require('./dateHandlers');
 const { getItemWithOrConditionally } = require('./dbRequetHandler');
-const empty = () => {
-};
 
-
-
-const checkEmptyString = (str) => {
-    if (str === "")
-        return false;
-    else
-        return true;
-}
-const checkDate = dateString => dateString >= moment().format().split(/T/)[0];
-const checkTime = timeString => timeString >= moment().format().match(/(?:T)[0-9]*:[0-9]*:[0-9]*/)[0].replace(/T/, "");
-const checkUserSelected = (task) => {
-    let users = 0;
-    for (let property in task)
-        task[property] === true ? users++ : empty();
-    if (!users)
-        return false;
-    return true;
-}
-const getErrorList = (task) => {
-    let errorList = [];
-    if (!checkEmptyString(task['title']))
-        errorList.push("ПУСТОЕ НАЗВАНИЕ");
-    if (!checkDate(task['date']))
-        errorList.push("НЕКОРЕКТНАЯ ДАТА");
-    else if (!checkTime(task['time']))
-        errorList.push("НЕКОРЕКТНОЕ ВРЕМЯ");
-    if (!checkUserSelected(task))
-        errorList.push("НЕ ВЫБРАНЫ ПОЛЬЗОВАТЕЛИ");
-    return errorList;
-}
-const formatTask = (task) => {
-    const [year, month, date] = task.date.split('-');
-    const [hour, minute] = task.time.split(':');
-    const dateMoment = moment(task.date);
-    return { ...task, year: year, month: month, date: date, hour: hour, minute: minute, dateMoment: dateMoment };
-}
-
-const datesAreEqual = (date, secDate) => date.valueOf() === moment([secDate.year(), secDate.month(), secDate.date()]).valueOf();
-
-
-
-const firstDateAreGreater = (date, secDate) => moment([date.year(), date.month(), date.date()]).valueOf() > moment([secDate.year(), secDate.month(), secDate.date()]).valueOf();
 const taskInRange = (period, fDate, secDate) => {
     let date = moment(fDate);
     switch (period) {
-        case "never":
-            return false;
         case "day":
-            return !firstDateAreGreater(date, secDate) ? true : false;
+            return compareDate(date, secDate, ['lEqual'], ['full'])
         case "week":
             while (1) {
-                if (firstDateAreGreater(date, secDate))
-                    return false;
-                if (datesAreEqual(date, secDate))
-                    return true;
-                date.add(7, 'd');
+                return false;
             }
         case "month":
-            if (secDate.date() === date.date() || (secDate.date() === getNumberOfDays(secDate) && secDate.date() < date.date()))
+            if (compareDate(date, secDate, ['equal'], ['date'],'and') || (secDate.date() === getNumberOfDays(secDate) &&compareDate(date, secDate, ['more'], ['date'],'and')))
                 return true;
             return false;
 
         case "year":
-            if ((date.date() === secDate.date() && date.month() === secDate.month()) || (secDate.date() === getNumberOfDays(secDate) && secDate.date() < date.date()))
+            if (compareDate(date, secDate, ['equal','equal'], ['date','month'],'and') || (secDate.date() === getNumberOfDays(secDate) &&compareDate(date, secDate, ['more'], ['date'],'and')))
                 return true;
             return false;
 
@@ -81,25 +31,23 @@ const taskInRange = (period, fDate, secDate) => {
 
 const getTasksForCurrentWeek = (tasks, dateArg) => {
 
-    let currentTasks = [];
+    const monthTasks = [];
     const range = getWeekRange(dateArg);
     let i = range.first;
     let j = 0;
-    while (!firstDateAreGreater(i, range.last)) {
-        let buf = [];
+    while (compareDate(i, range.last, ['lEqual'], ['full'])) {
         tasks.forEach(e => {
-            if (datesAreEqual(moment(e.date), moment(i)) || taskInRange(e.period, moment(e.date), moment(i))) {
-                buf.push(e);
+            if (compareDate(e.date, i, ['equal', 'equal', 'equal'], ['date', 'month', 'year'], "and") || taskInRange(e.period, moment(e.date), moment(i))) {
+                if (monthTasks[j] == undefined)
+                monthTasks[j] = [];
+                monthTasks[j].push(e);
             }
         })
-
-        if (buf.length != 0)
-            currentTasks[j] = buf;
         i.add(1, 'd');
         j++;
     }
 
-    return currentTasks;
+    return  monthTasks;
 }
 
 ///update algo
@@ -107,66 +55,58 @@ const getTasksForCurrentMonth = (tasks, dateArg) => {
 
     let date = moment(dateArg);
     const length = getNumberOfDays(dateArg);
-
-    let currentTasks = [];
+    const monthTasks = [];
     for (let i = 0; i < length; i++) {
-        let bufArr = [];
         tasks.forEach(e => {
-            const dateMoment = moment(e.date);
-            if (!firstDateAreGreater(dateMoment, date.date(length))) {
-                date.date(i + 1);
-                dateMoment.date(e.date);
-                if (datesAreEqual(dateMoment, date) || taskInRange(e.period, dateMoment, date)) {
-                    bufArr.push(e);
-                }
+            const taskDate = moment(e.date);
+            date.date(i + 1);
+            if (compareDate(taskDate, date, ['equal', 'equal', 'equal'], ['date', 'month', 'year'], "and") || (compareDate(taskDate, date.date(length), ['lEqual'], ['full']) && taskInRange(e.period, taskDate, date))) {
+                if (monthTasks[i] == undefined)
+                    monthTasks[i] = [];
+                    monthTasks[i].push(e);
+
             }
         })
-        if (bufArr.length != 0)
-            currentTasks[i] = bufArr;
-
     }
-    return currentTasks;
+    return monthTasks;
 }
 
 
 const getTasksForCurrentDay = (tasks, dateArg) => {
-    let bufArr = [];
+    const dayTasks = [];
     tasks.forEach(e => {
-        const dateMoment = moment(e.date);
-        if (!firstDateAreGreater(dateMoment, moment(dateArg))) {
-            dateMoment.date(e.date);
-            if (datesAreEqual(dateMoment, moment(dateArg)) || taskInRange(e.period, dateMoment, moment(dateArg))) {
-                bufArr.push(e);
-            }
-        }
+        const taskDate = moment(e.date);
+        if (compareDate(taskDate, dateArg, ['equal', 'equal', 'equal'], ['date', 'month', 'year'], "and") || (compareDate(taskDate, dateArg, ['lEqual'], ['full']) && taskInRange(e.period, taskDate, dateArg)))
+            dayTasks.push(e);
+
     })
-    return bufArr;
+    return dayTasks;
 }
 
 
 const getTasksFromStorage = async (login, room) => {
-    const filds=[`users.${login}`,'room'];
-    const fildsVal=[{ '$exists' : false },room];
-    const filds1=[`users.${login}`,'room'];
-    const fildsVal1=[ true,room];
-    return await getItemWithOrConditionally(Task, filds, fildsVal,filds1,fildsVal1 ,["_id", 'title', 'description', 'date', 'time', 'period']);
+    const filds = [`users.${login}`, 'room'];
+    const fildsVal = [{ '$exists': false }, room];
+    const filds1 = [`users.${login}`, 'room'];
+    const fildsVal1 = [true, room];
+    return await getItemWithOrConditionally(Task, filds, fildsVal, filds1, fildsVal1, ["_id", 'title', 'description', 'date', 'time', 'period']);
 }
-const getTasksByMode = (mode, tasks, date) => {
+const filterTasksByMode = (mode, tasks, date) => {
     switch (mode) {
         case "CALENDAR":
-          return  getTasksForCurrentMonth(tasks,moment(date));
+            return getTasksForCurrentMonth(tasks, moment(date));
         case 'WEEKLIST':
-           return getTasksForCurrentWeek(tasks,moment(date));
+            return getTasksForCurrentWeek(tasks, moment(date));
         case "taskList":
-          return  getTasksForCurrentDay(tasks,moment(date));
+            return getTasksForCurrentDay(tasks, moment(date));
         default:
-        return;
-      
+            return;
+
     }
 }
 
 const getTasks = async (mode, date, login, room) => {
     const allTasks = await getTasksFromStorage(login, room);
-    return getTasksByMode(mode,allTasks,date);
+    return filterTasksByMode(mode, allTasks, date);
 }
-module.exports = { getTasks, getErrorList, formatTask };
+module.exports = { getTasks};

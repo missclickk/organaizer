@@ -77,7 +77,7 @@ router.post('/task', [check('task', 'НАЗВАНИЕ ДОЛЖНО СОДЕРЖ�
                 return res.status(400).json({ message: errors.array().map(e => e.msg) });
         try {
                 const { id, task } = req.body;
-
+                console.log(req.body);
                 await pushItem(Todo, { _id: id }, 'tasks', { name: task, value: true });
                 res.status(200).json({ message: "todo task created!" });
         }
