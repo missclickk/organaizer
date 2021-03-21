@@ -1,22 +1,38 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+
 import './TaskList.css'
-import {TaskWinMutate,getOneTask} from '../../../redux/actions'
-const ListItem = ({itemId,time,title,TaskWinMutate,getOneTask}) => {
-const onClickHandker=()=>{
-    console.log(itemId);
-    getOneTask(itemId);
-    TaskWinMutate("outputTask");
-}
-return <div id={itemId}  className='list-conteiner__list-card__task-card'  onClick={onClickHandker}>
-    <div className='list-conteiner__list-card__task-card__time'>{time} </div>
-    <div className='list-conteiner__list-card__task-card__title'>{title} </div>
-</div> 
+import { TaskWinMutate, getOneTask, deleteOneTask, getTasks } from '../../../redux/actions'
+import DeleteBtn from './../Buttons/DeleteBtn'
+
+
+
+const ListItem = ({ mode,date,room,login,itemId, time, title, TaskWinMutate, getOneTask, getTasks, deleteOneTask }) => {
+    const onClickHandker = (event) => {
+        console.log(event.target)
+        const t=event.target;
+      if(t!==document.querySelector('.small')){
+        getOneTask(itemId);
+       TaskWinMutate("outputTask");}
+    }
+    return <div id={itemId} className='list-conteiner__list-card__task-card' onClick={onClickHandker}>
+        <div className='list-conteiner__list-card__task-card__time'>{time} </div>
+        <div className='list-conteiner__list-card__task-card__title'>{title} </div>
+        <DeleteBtn funArr={[deleteOneTask, getTasks]} args={{ 0: [itemId], 1: [mode, date, room,login] }} />
+    </div>
 }
 
-const mapDispatchToProps={
+const mapStateToPorops = (state) => ({
+    mode: state.render.mainBlockItem,
+    login: state.user.loginUser,
+    room: state.user.roomID,
+    date: state.date.date,
+})
+const mapDispatchToProps = {
     TaskWinMutate,
-    getOneTask
+    getOneTask,
+    getTasks,
+    deleteOneTask
 }
 
-export default connect(null,mapDispatchToProps)(ListItem);
+export default connect(mapStateToPorops, mapDispatchToProps)(ListItem);

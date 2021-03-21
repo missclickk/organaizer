@@ -13,14 +13,22 @@ const getPrevDate=(date,num,type)=>{
 
 
 
-export const changeMonthWithFlag = (flag, date) => {
-    return    flag === "next" ?getNextDate(date,1,'M').date(1) : getPrevDate(date,1,'M').date(1);
+ const getMonth = (direction, date) => {
+    return    direction === "next" ?getNextDate(date,1,'M').date(1) : getPrevDate(date,1,'M').date(1);
 }
 
-export const changeWeekWithFlag = (flag, date) => {
-    return    flag === "next" ? getNextDate(date,7,'d') : getPrevDate(date,7,'d');
-}
+ const getWeek = (direction, date) => {
+     console.log(date.format());
+     console.log(direction);
+     const d=direction === "next" ? getNextDate(date,7,'d') : getPrevDate(date,7,'d');
+    console.log(d.format());
+    return d;
+    }
 
+
+export const getNewDate=(mode,direction,date)=>{
+            return mode==="CALENDAR"?getMonth(direction,date):getWeek(direction,date);
+}
 
 export const getWeekRange=(date,type=null)=>{
     const clone=moment(date);

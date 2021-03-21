@@ -1,48 +1,64 @@
-const moment=require('moment')
- const getNumberOfDays = (currentDate = moment()) =>currentDate.add(1,"M").date(1).subtract(1,'d').date();
+const moment = require('moment')
+const getNumberOfDays = (currentDate = moment()) => currentDate.add(1, "M").date(1).subtract(1, 'd').date();
+
+const getValueUpToDate=date=>moment([date.year(), date.month(), date.date()]);
+
+const firstDateAreGreater = (date, secDate) => moment(date).valueOf() > moment(secDate).valueOf();
+const datesAreEqual = (date, secDate) => moment(date).valueOf() === moment(secDate).valueOf();
 
 
-const getNextDate=(date,num,type)=>{
-    return date.add(num,type);
+compareParts=(fVal,sVal,mark)=>{
+    //mark=[less,more,equal,lEqual,mEqual,not] 
+    switch(mark){
+            case "less":
+            return fVal<sVal;
+            case "more":
+            return fVal>sVal;
+            case "equal":
+                return fVal===sVal;
+            case "lEqual":
+            return fVal<=sVal;
+            case "mEqual":
+                return fVal>=sVal;
+            case "not":
+            return fVal!==sVal;
+            default:
+                return false;
+        }
 }
 
-const getPrevDate=(date,num,type)=>{
-    return date.subtract(num,type);
-}
-const firstDateAreGreater = (date, secDate) =>moment([date.year(),date.month(),date.date()]).valueOf()>moment([secDate.year(),secDate.month(),secDate.date()]).valueOf();
 
- const changeMonthWithFlag = (flag, date) => {
-    return    flag === "next" ?getNextDate(date,1,'M').date(1) : getPrevDate(date,1,'M').date(1);
-}
- const changeWeekWithFlag = (flag, date) => {
-    return    flag === "next" ? getNextDate(date,7,'d') : getPrevDate(date,7,'d');
+const compareDate=(date,secDate,mark,partOfDate=[''],logicOperator='')=>{
+//mark=[less,more,equal,lEqual,mEqual,not]
+//partOfDate=[year,month,date,weekday,hour,minute,second,full]
+//date[partOfDate]()
+    const fDate=moment(date);
+    const sDate=moment(secDate);
+    if(partOfDate[0]==='full')
+      return  compareParts(fDate.valueOf(),sDate.valueOf(),mark[0]);
+
+
+    const resultArr=partOfDate.map((e,i)=>compareParts(fDate[e](),sDate[e](),mark[i]));
+    switch (logicOperator){
+        case 'and':
+         return  resultArr.reduce((a,b)=>a&&b ,true);
+        case 'or':
+            return  resultArr.reduce((a,b)=>a||b ,false);
+        default:
+            return resultArr;
+    }
+   
 }
 
- const getWeekRange=(date,type=null)=>{
-    const clone=moment(date);
-    const clone1=moment(date);
-            if(date.weekday()===0){
-                return type===Number?{
-                    first: clone1.add(-6, "days").date(),
-                    last: clone.date()
-                }:
-                {
-                    first: clone1.add(-6, "days"),
-                    last: clone
-                }
-            }
-            return type===Number?{
-                first: clone1.subtract(clone1.weekday() - 1, "days").date(),
-                last: clone.add(7 - clone.weekday(), "days").date()
-            }:
-            {
-                first: clone1.subtract(clone1.weekday() - 1, "days"),
-                last: clone.add(7 - clone.weekday(), "days")
-            }
 
+const getWeekRange = (date, type = null) => {
+    const clone = moment(date);
+    const clone1 = moment(date);
+    const range = date.weekday() === 0 ? { first: clone1.add(-6, "days"), last: clone } : { first: clone1.subtract(clone1.weekday() - 1, "days"), last: clone.add(7 - clone.weekday(), "days") }
+    return type===Number?{...range,first:range.first.date(),last:range.last.date()}:range;
 }
-module.exports={getWeekRange,changeWeekWithFlag,changeMonthWithFlag,getNumberOfDays,firstDateAreGreater };
-/*   if(flag==='next'){
-        console.log(date.format());
-    return  mode === "CALENDAR" ? date.add(1, "M") : date.add(7, "d");}
-    return  mode === "CALENDAR" ? date.subtract(1, "M") : date.subtract(7, "d");*/ 
+
+
+module.exports = {compareDate,datesAreEqual, getWeekRange, getNumberOfDays, firstDateAreGreater,getValueUpToDate };
+
+

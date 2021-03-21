@@ -1,12 +1,11 @@
 import React from 'react'
-import Content from "./content/content/Content";
+import Content from "./content/Content";
 import Header from "./header/Header";
-
-
-const MainWindow = () => <div>
+const MainWindow = () =>{
+    return <div>
     <Header />
     <Content />
-</div>
+</div>}
 
 
 export default MainWindow;

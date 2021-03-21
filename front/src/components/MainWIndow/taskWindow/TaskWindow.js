@@ -52,7 +52,7 @@ const TaskWindow = ({getUsersList,room,login,getTodos,todoId,setTodoTask, addTod
                 getTodos(login,room);
                 break;
             case "todoTask":
-                setTodoTask( todoId,taskObj.title)
+                setTodoTask( todoId,taskObj.title);
                 getTodos(login,room);
                 break;
             default:

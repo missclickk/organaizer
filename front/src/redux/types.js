@@ -4,6 +4,10 @@ export const CHANGE_DATE="CHANGE_DATE"
 //MODE 
 export const CHANGE_MAIN_BLOCK="CALENDAR/CHANGE_MODE"
 
+
+//Soket
+export const SOCKET_INIT="SOCKET_INIT"
+
 //TASKS
 export const CREATE_TASK="TASKS/CREATE_TASK"
 export const CLEAR_ERROR_LIST="CLEAR_ERROR_LIST"
@@ -12,6 +16,7 @@ export const SET_TASKS_W="SET_TASKS_W"
 export const SET_TASKS_D="SET_TASKS_D"
 export const SET_ERROR_LIST_T="SET_ERROR_LIST_T"
 export const SET_ONE_TASK="SET_ONE_TASK"
+export const DELETE_ONE_TASK="DELETE_ONE_TASK"
 //for render 
 export const IS_EXISTING_TASK="IS_EXISTING_TASK"
 export const IS_TASK_LIST="IS_TASK_LISt"
@@ -22,6 +27,8 @@ export const END_LOADING="END/IS_LOADING"
 
 //Chat
 export const ADD_MESSAGE="CHAT/ADD_MESSAGE"
+export const TYPING="TYPING"
+export const INCOMIG_MSG="INCOMIG_MSG"
 
 
 
@@ -40,7 +47,7 @@ export const CHANGE_USER_LIST="CHANGE_USER_LIST";
 export const IS_LOGIN='USER/IS_LOGIN';
 export const SWITCH_USER_WIN='USER/SWITCH_WINDOW';
 export const SET_ERROR_LIST_U='USERS/ERROR_LIST';
-
+export const CONFIRMED_REG='CONFIRMED_REG';
 
 
 //user,render
