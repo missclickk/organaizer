@@ -48,7 +48,7 @@ export const IS_LOGIN='USER/IS_LOGIN';
 export const SWITCH_USER_WIN='USER/SWITCH_WINDOW';
 export const SET_ERROR_LIST_U='USERS/ERROR_LIST';
 export const CONFIRMED_REG='CONFIRMED_REG';
-
+export const LOGOUT='LOGOUT';
 
 //user,render
 export const OPEN_APP='OPEN_APP'; 

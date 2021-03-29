@@ -1,4 +1,4 @@
-import { CHANGE_USER_LIST, SWITCH_USER_WIN,OPEN_APP, SET_ERROR_LIST_U } from './../redux/types'
+import {LOGOUT, CHANGE_USER_LIST, SWITCH_USER_WIN,OPEN_APP, SET_ERROR_LIST_U } from './../redux/types'
 
 const getItemFromLocalStorage = (itemName) => {
     const item = window.localStorage.getItem(itemName);
@@ -25,6 +25,9 @@ const initialState = {
 export const userReducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case LOGOUT:
+
+       return {...state,isLogin:false,loginUser:'',roomID:null}
         case CHANGE_USER_LIST:
             return{...state, usersList:action.payload}
         case  OPEN_APP: 

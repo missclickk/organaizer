@@ -1,4 +1,4 @@
-import {CONFIRMED_REG,INCOMIG_MSG,DELETE_ONE_TASK,TYPING,CHANGE_USER_LIST, OPEN_APP, SET_ERROR_LIST_U, CHANGE_TASK_VALUE, CHANGE_ID, SET_TODOS, SET_ONE_TASK, SET_TASKS_D, END_LOADING, START_LOADING, SET_ERROR_LIST_T, SET_TASKS_M, SET_TASKS_W, SWITCH_USER_WIN, IS_LOGIN, CHANGE_MAIN_BLOCK, CHANGE_DATE, ADD_MESSAGE, IS_TASK_WIN, CLEAR_ERROR_LIST, IS_EXISTING_TASK, IS_TASK_LIST, TODO_BUTTONS, SOCKET_INIT} from "./types"
+import {CONFIRMED_REG,INCOMIG_MSG,DELETE_ONE_TASK,LOGOUT,TYPING,CHANGE_USER_LIST, OPEN_APP, SET_ERROR_LIST_U, CHANGE_TASK_VALUE, CHANGE_ID, SET_TODOS, SET_ONE_TASK, SET_TASKS_D, END_LOADING, START_LOADING, SET_ERROR_LIST_T, SET_TASKS_M, SET_TASKS_W, SWITCH_USER_WIN, IS_LOGIN, CHANGE_MAIN_BLOCK, CHANGE_DATE, ADD_MESSAGE, IS_TASK_WIN, CLEAR_ERROR_LIST, IS_EXISTING_TASK, IS_TASK_LIST, TODO_BUTTONS, SOCKET_INIT} from "./types"
 import moment from "moment"
 
 
@@ -64,6 +64,18 @@ export function changeDate(flag, mode) {
 }
 
 //////////////////////////////////////////USERS
+
+
+export function logoutUser(){
+    localStorage.removeItem('login');
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('room');
+    return {
+        type:LOGOUT
+    }
+
+}
+
 export function getUsersList(room){
     return async dispatch=>{
         dispatch(startLoading())

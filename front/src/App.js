@@ -2,8 +2,8 @@ import React from "react"
 import { Route, Redirect } from 'react-router-dom';
 import {connect}from 'react-redux'
 import "./index.css"
-import MainWindow from './components/MainWIndow/MainWindow'
-import LoginWin from './components/loginWin/LoginWin'
+import MainWindow from './components/main_window/MainWindow'
+import LoginWin from './components/login_window/LoginWin'
 
 function App({isLogin}) {
 
