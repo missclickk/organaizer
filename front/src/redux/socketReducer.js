@@ -1,4 +1,4 @@
-import { regUser } from './actions';
+
 import {SOCKET_INIT} from './types'
 const CHAT_MSG="chat_msg";
 
@@ -29,8 +29,8 @@ export const socketReducer=(state=initialState,action)=>{
 
 
 
-        default:
-        return {...state};
+        default: return {...state};
+        
     }
     
 

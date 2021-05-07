@@ -12,10 +12,10 @@ const initialState = {
 
 
     const updateTasksById = (stateTasks,id, name, val) => {
-        let it=null;
+        //let it=null;
         const taskWithId=stateTasks.filter((e,i)=>{
             if(e._id===id){
-                it=i;
+               // it=i;
                 return true;}
 
         })[0];

@@ -1,4 +1,4 @@
-import {CONFIRMED_REG,INCOMIG_MSG,DELETE_ONE_TASK,LOGOUT,TYPING,CHANGE_USER_LIST, OPEN_APP, SET_ERROR_LIST_U, CHANGE_TASK_VALUE, CHANGE_ID, SET_TODOS, SET_ONE_TASK, SET_TASKS_D, END_LOADING, START_LOADING, SET_ERROR_LIST_T, SET_TASKS_M, SET_TASKS_W, SWITCH_USER_WIN, IS_LOGIN, CHANGE_MAIN_BLOCK, CHANGE_DATE, ADD_MESSAGE, IS_TASK_WIN, CLEAR_ERROR_LIST, IS_EXISTING_TASK, IS_TASK_LIST, TODO_BUTTONS, SOCKET_INIT} from "./types"
+import {INCOMIG_MSG,LOGOUT,TYPING,CHANGE_USER_LIST, OPEN_APP, SET_ERROR_LIST_U, CHANGE_TASK_VALUE, CHANGE_ID, SET_TODOS, SET_ONE_TASK, SET_TASKS_D, END_LOADING, START_LOADING, SET_ERROR_LIST_T, SET_TASKS_M, SET_TASKS_W, SWITCH_USER_WIN, IS_LOGIN, CHANGE_MAIN_BLOCK, CHANGE_DATE, ADD_MESSAGE, IS_TASK_WIN, CLEAR_ERROR_LIST, IS_EXISTING_TASK, IS_TASK_LIST, TODO_BUTTONS, SOCKET_INIT} from "./types"
 import moment from "moment"
 
 
@@ -19,7 +19,6 @@ export function clearErrorList() {
 
 //////////////////////////////////////////CHAT
 export function handleIncomingMessage(message){
-    console.log(message);
         let formattedMsg=message.map(e=>({hour:moment(e.date).hour(),minute:moment(e.date).minute(),loginUser:e.loginUser,msg:e.msg}));
         return {
         type: INCOMIG_MSG,
@@ -104,11 +103,10 @@ export function regUser({ email, login, password, rPassword,room=null }) {
 }
 export function authUser({ email, password }) {
     return async dispatch => {
-        const headers = { 'Content-Type': 'application/json' };
-        const body = JSON.stringify({ email, password });
-        const response = await fetch('/api/users/auth', { method: 'POST', body, headers });
+        const headers = { 'Content-Type': 'application/json',email,password };
+
+        const response = await fetch('/api/users/auth', { method: 'GET',headers });
         const json = await response.json();
-        console.log(json.login);
         if (response.status === 400)
             dispatch({ type: SET_ERROR_LIST_U, payload: json.message })
         else dispatch({ type: OPEN_APP, login: json.login,room:json.room })
@@ -169,7 +167,7 @@ export function createTask(task,room) {
     return async dispatch => {
         const headers = { 'Content-Type': 'application/json' };
         const body = JSON.stringify({ task,room })
-        const response = await fetch('/api/task/oneTask', { method: 'POST', body, headers });
+        const response = await fetch('/api/task/one', { method: 'POST', body, headers });
 
         if (response.status === 200)
             dispatch({
@@ -205,7 +203,7 @@ export function getTasks(mode, date,room,login) {
             default:
                 break;    
         }
-        const response = await fetch('/api/task/TasksForRange', { method: 'GET', headers });
+        const response = await fetch('/api/task/list', { method: 'GET', headers });
         const json = await response.json();
         dispatch({type,payload:json.tasks});
         dispatch(endLoading());
@@ -216,8 +214,9 @@ export function getOneTask(id) {
     return async dispatch => {
         dispatch(startLoading());
         const headers = { 'Content-type': 'application/json', id: id };
-        const response = await fetch('/api/task/oneTask', { method: 'GET', headers });
+        const response = await fetch('/api/task/one', { method: 'GET', headers });
         const json = await response.json();
+        console.log(json);
         dispatch({ type: SET_ONE_TASK, payload: json });
         dispatch(endLoading());
     }
@@ -227,7 +226,7 @@ export function deleteOneTask(id){
     return async dispatch=>{
         dispatch(startLoading());
         const headers={'Content-type':'application/json',target:id};
-        const response = await fetch('/api/task/oneTask', { method: 'DELETE', headers });
+        await fetch('/api/task/one', { method: 'DELETE', headers });
         dispatch(endLoading());
     }
 }

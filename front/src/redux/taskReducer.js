@@ -36,7 +36,6 @@ export const taskReducer = (state = initialState, action) => {
         case SET_ERROR_LIST_T:
             return { ...state, errorList: action.payload };
         case SET_ONE_TASK:
-            console.log(action.payload)
             return { ...state, renderOneTask: action.payload };
 
         default:

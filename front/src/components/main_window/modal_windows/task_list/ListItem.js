@@ -9,7 +9,6 @@ import DeleteBtn from './../../buttons/DeleteBtn'
 
 const ListItem = ({ mode,date,room,login,itemId, time, title, TaskWinMutate, getOneTask, getTasks, deleteOneTask }) => {
     const onClickHandker = (event) => {
-        console.log(event.target)
         const t=event.target;
       if(t!==document.querySelector('.small')){
         getOneTask(itemId);

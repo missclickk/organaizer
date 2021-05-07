@@ -2,19 +2,17 @@ import React from 'react'
 import './LoginWin.css'
 import { connect } from 'react-redux'
 import { regUser, switchUserWin } from './../../redux/actions'
-import InputsWrapper from './components/EmailInput'
+import InputsWrapper from './components/InputsWrapper'
 
 const RegWin = ({ regUser, errorList, switchUserWin, winType }) => {
 
     const onClickHanlder = (event) => {
         const target = event.target;
         const data = {
-            /*
             email: document.querySelector('#email').value,
             login: document.querySelector('#login').value,
             password: document.querySelector('#pas').value,
             rPassword: document.querySelector('#rPas').value,
-        */
         }
         switch (target) {
             case document.querySelector('.login-win__authSpan'):
@@ -44,9 +42,9 @@ const RegWin = ({ regUser, errorList, switchUserWin, winType }) => {
                 <div className='newRoom login-win__submitBtn' onClick={onClickHanlder}>СОЗДАТЬ НОВУЮ КОМНАТУ</div>
             </div>
 
-            {errorList.map(e => {
-                return e + "\n"
-            })};
+            { errorList.reduce((a,b)=>{
+                   return  a.concat(` ${b} `);
+            }," ")}
         </div>
     </div>
 }

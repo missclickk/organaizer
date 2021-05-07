@@ -6,19 +6,17 @@ import WriteArea from "./write_area/WriteArea"
 import { handleIncomingMessage,socketInit} from '../../../../redux/actions'
 const ChatBlock=({ handleIncomingMessage,socketInit,roomId,socket})=>{
   const [isFirstRender,setIsFirstRender]=useState(true)  
-    
+      
   useEffect(()=>{
     if(isFirstRender)
     {
       socketInit(roomId,handleIncomingMessage);
       setIsFirstRender(false);
     }
-  },[isFirstRender])
+  },[isFirstRender,socketInit,handleIncomingMessage,roomId])
 
 
 
-
-  console.log(socket);
  return <div className='content__chat'>
           <MessageArea/> 
           <WriteArea/>
