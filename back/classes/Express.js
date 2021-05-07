@@ -1,19 +1,34 @@
 const express=require('express');
 const path=require('path');
-class ExpressServer{
-    #express;
-    constructor(){
-        this.#express=express();
-        this.initStaticPage();
+
+const {apiRouter}=require('./../routes/api.routes');
+class HttpServer{
+    #server;
+    #PORT=4000;
+    constructor(app,apiRouter){
+        this.#server=app;
+        this.#initServer(apiRouter);
     }
-    initStaticPage(){
-        this.#express.use(express.json({extended:true}));
-        this.#express.use('/',express.static(path.join(__dirname,'./../front','build')));
+
+
+    #initServer(){
+
+        this.#server.use(express.json({extended:true}));
+        this.#server.use(apiRouter);
     }
-    get app(){
-        return this.#express;
+
+    start(){
+        this.#server.get('/',function(req,res){
+            res.send('hello');
+          })
+         this.#server.listen(this.#PORT,()=>{
+              console.log('Hi, I\'m simple http server!!! ');
+          });
     }
+   // get httpServer(){
+   //     return this.#server;
+   // }
 }
 
 
-module.exports={app:new ExpressServer().app};
+module.exports={httpServer:new HttpServer(express(),apiRouter)};

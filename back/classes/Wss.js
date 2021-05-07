@@ -1,7 +1,13 @@
-const { getItemByID } = require('./dbRequetHandler')
+const { Storage} = require('./Storage')
 const Room = require('./../models/Room')
 const { ChatCache } = require('./../classes/ChatCache')
 const cache = ChatCache();
+const WebSocket=require('ws');
+const http=require('http');
+
+
+
+
 
 const messageHandler = async (socket, message) => {
     const { msg, roomID, type, date, loginUser } = JSON.parse(message);
@@ -12,7 +18,7 @@ const messageHandler = async (socket, message) => {
             cache.removeTimerIfExisit(roomID);
             cache.regClient(socket, roomID);
             const room = cache.getRoomData(roomID);
-            const { chat } = await getItemByID(Room, roomID, ['chat'])
+            const { chat } = await Storage.getItemByID(Room, roomID, ['chat'])
             const text = room.msg && chat ? room.msg.concat(chat) : room.msg || chat;
             if (text)
                 socket.send(JSON.stringify({ type: 'chat_msg', data: text }));
@@ -45,4 +51,31 @@ const connectHandler = (socket, req) => {
 }
 
 
-module.exports = { connectHandler };
+class Wss{
+    #wss;
+    #connectHandler;
+    #server;
+        constructor(http,ws,handler){
+            this.#initHttpServer(http);
+            this.#initWss(ws);
+            this. #connectHandler=handler;
+        }
+        #initHttpServer(http){  
+            this.#server=http.createServer((req,res)=>{
+                res.writeHead(200);
+                res.end('hello it\'s 40001 port');
+              });
+        }
+        #initWss(ws){
+              this.#wss=new ws.Server({server:this.#server,clientTracking:true});
+        }
+    start(){
+        this.#server.listen(4001,()=>{console.log('Hi, I\'m WebSokcet server!!!')});
+        this.#wss.on('connection',this.#connectHandler)
+    }        
+}
+
+
+
+
+module.exports={Wss,wss:new Wss(http,WebSocket,connectHandler)};

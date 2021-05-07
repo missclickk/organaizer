@@ -67,9 +67,14 @@ router.post(
 
 router.post('/auth', [check('email', 'НЕ КОРЕКТНЫЙ EMAIL').isEmail()], async (req, res) => {
     const errors = validationResult(req);
+    console.log(req);
     if (!errors.isEmpty())
+    {
+      
         return res.status(400).json({ message: errors.array().map(e => e.msg) });
-    const { email, password } = req.body;
+    }
+
+        const { email, password } = req.body;
     try {
         const buf = await getItemWithConditionally(User, ['email'], [email],['password', 'login', 'room']);
         if (!buf)
