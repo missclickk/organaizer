@@ -36,34 +36,67 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.app = exports.App = void 0;
-var Wss_1 = require("./Wss");
-var HttpServer_1 = require("./HttpServer");
-var t_bot_1 = require("./../chatbots/t_bot");
-var Storage_1 = require("./Storage");
-var App = /** @class */ (function () {
-    function App(listeners, storage) {
-        this.arrayListeners = [];
-        this.arrayListeners = listeners;
-        this.storage = storage;
+exports.msgStorage = exports.MsgStorage = void 0;
+var chatBot_resurce_1 = require("../../resurce/chatBot.resurce");
+var MsgStorage = /** @class */ (function () {
+    function MsgStorage(resurce) {
+        this.cache = new Map();
+        this.resurce = resurce;
     }
-    App.prototype.start = function () {
+    MsgStorage.prototype.setItemByName = function (key, value) {
         return __awaiter(this, void 0, void 0, function () {
+            var room, ids;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.storage.intitStorage()];
+                    case 0: return [4 /*yield*/, this.resurce.getClients(key)];
                     case 1:
-                        if (!(_a.sent())) {
-                            console.log("error at init storage!");
-                            process.exit(1);
-                        }
-                        this.arrayListeners.forEach(function (e) { return e.start(); });
-                        return [2 /*return*/];
+                        ids = _a.sent();
+                        room = { clients: [value], chatBots: ids };
+                        this.cache.set(key, room);
+                        return [2 /*return*/, 1];
                 }
             });
         });
     };
-    return App;
+    MsgStorage.prototype.updateItemByName = function (key, subKey, value) {
+        return __awaiter(this, void 0, void 0, function () {
+            var room;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!!this.cache.has(key)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.setItemByName(key, value)];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        room = this.cache.get(key);
+                        room[subKey[0]] ? room[subKey[0]].push(value) : room[subKey[0]] = [value];
+                        this.cache.set(key, room);
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ;
+    MsgStorage.prototype.getItemByName = function (key, value) {
+        var art = this.cache.has(key.toString());
+        var buf;
+        if (!this.cache.has(key.toString()))
+            return false;
+        buf = this.cache.get(key.toString());
+        if (buf[value]) {
+            return buf[value];
+        }
+        return false;
+    };
+    ;
+    MsgStorage.prototype.deleteItemByName = function (key) {
+        return this.cache["delete"](key);
+    };
+    ;
+    return MsgStorage;
 }());
-exports.App = App;
-exports.app = new App([HttpServer_1.httpServer, Wss_1.wss, t_bot_1.tbot], Storage_1.storage);
+exports.MsgStorage = MsgStorage;
+exports.msgStorage = new MsgStorage(chatBot_resurce_1.chatResurce);

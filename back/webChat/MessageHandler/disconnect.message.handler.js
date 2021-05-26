@@ -36,34 +36,52 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.app = exports.App = void 0;
-var Wss_1 = require("./Wss");
-var HttpServer_1 = require("./HttpServer");
-var t_bot_1 = require("./../chatbots/t_bot");
-var Storage_1 = require("./Storage");
-var App = /** @class */ (function () {
-    function App(listeners, storage) {
-        this.arrayListeners = [];
-        this.arrayListeners = listeners;
-        this.storage = storage;
+exports.disconnectHanlder = exports.DisconnectHanlder = void 0;
+var TimersStorage_1 = require("./../Storages/TimersStorage");
+var MsgStorage_1 = require("./../Storages/MsgStorage");
+var chatbot_resurce_1 = require("./../../resurce/chatbot.resurce");
+/*
+    -получаем элементы map по socekt.roomID
+    - в массиве clients удаляем элемент равный socket.socket===clients[i];
+    -проверяем длину  clients, если она равна 0, то создаем таймер.
+    -когда таймер сробатывает, происходит запись в бд, удаление таймера, удаление записи в msgStorage;
+  
+  */
+var DisconnectHanlder = /** @class */ (function () {
+    function DisconnectHanlder(timer, msg, resurce) {
+        this.msgStore = msg;
+        this.timerStore = timer;
+        this.resurce = resurce;
     }
-    App.prototype.start = function () {
+    DisconnectHanlder.prototype.deleteCacheEnty = function (socket) {
         return __awaiter(this, void 0, void 0, function () {
+            var obj;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.storage.intitStorage()];
-                    case 1:
-                        if (!(_a.sent())) {
-                            console.log("error at init storage!");
-                            process.exit(1);
-                        }
-                        this.arrayListeners.forEach(function (e) { return e.start(); });
-                        return [2 /*return*/];
-                }
+                obj = this.msgStore.getItemByName(socket.roomId, "chat");
+                if (obj.concat !== undefined && obj.length > 0)
+                    this.resurce.setChat(socket.roomId, obj);
+                this.msgStore.deleteItemByName(socket.roomId);
+                this.timerStore.deleteItemByName(socket.roomId);
+                return [2 /*return*/];
             });
         });
     };
-    return App;
+    DisconnectHanlder.prototype.setTimer = function (socket) {
+        this.timerStore.setItemByName(socket.roomId, setTimeout(this.deleteCacheEnty.bind(this, socket), 3000));
+    };
+    DisconnectHanlder.prototype.handelMsg = function (socket) {
+        var clients = this.msgStore.getItemByName(socket.roomId, "clients");
+        var obj = clients;
+        if (obj.indexOf === undefined || obj.splice === undefined)
+            throw new Error("this clients or room not exists");
+        obj.splice(obj.indexOf(socket.socket), 1);
+        console.log(obj.length);
+        if (obj.length === 0)
+            this.setTimer(socket);
+        else
+            this.msgStore.updateItemByName(socket.roomId, ["clients"], obj);
+    };
+    return DisconnectHanlder;
 }());
-exports.App = App;
-exports.app = new App([HttpServer_1.httpServer, Wss_1.wss, t_bot_1.tbot], Storage_1.storage);
+exports.DisconnectHanlder = DisconnectHanlder;
+exports.disconnectHanlder = new DisconnectHanlder(TimersStorage_1.timersStorage, MsgStorage_1.msgStorage, chatbot_resurce_1.chatResurce);

@@ -36,34 +36,38 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.app = exports.App = void 0;
-var Wss_1 = require("./Wss");
-var HttpServer_1 = require("./HttpServer");
-var t_bot_1 = require("./../chatbots/t_bot");
-var Storage_1 = require("./Storage");
-var App = /** @class */ (function () {
-    function App(listeners, storage) {
-        this.arrayListeners = [];
-        this.arrayListeners = listeners;
-        this.storage = storage;
+exports.CreatTodoCommand = exports.CreateToDoWrapper = void 0;
+var CommandFactory_1 = require("./CommandFactory");
+//title users room
+function CreateToDoWrapper(room, title, usersList, users) {
+    var obj = {};
+    usersList.forEach(function (e) { return users.includes(e) ? obj[e] = true : obj[e] = false; });
+    console.log(obj);
+    var args = [room, title, JSON.stringify(users)];
+    var factory = new CommandFactory_1.CommandFactory();
+    return factory.createCommand("create_todo_sec", args);
+}
+exports.CreateToDoWrapper = CreateToDoWrapper;
+var CreatTodoCommand = /** @class */ (function () {
+    function CreatTodoCommand(args, resurce, validator) {
+        this.room = args[1];
+        this.title = args[0];
+        this.users = JSON.parse(args[2]);
+        this.validator = validator;
+        this.resurce = resurce;
     }
-    App.prototype.start = function () {
+    CreatTodoCommand.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.storage.intitStorage()];
+                    case 0: return [4 /*yield*/, this.resurce.addItem({ title: this.title, users: this.users }, this.room)];
                     case 1:
-                        if (!(_a.sent())) {
-                            console.log("error at init storage!");
-                            process.exit(1);
-                        }
-                        this.arrayListeners.forEach(function (e) { return e.start(); });
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
         });
     };
-    return App;
+    return CreatTodoCommand;
 }());
-exports.App = App;
-exports.app = new App([HttpServer_1.httpServer, Wss_1.wss, t_bot_1.tbot], Storage_1.storage);
+exports.CreatTodoCommand = CreatTodoCommand;

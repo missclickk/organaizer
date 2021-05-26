@@ -36,34 +36,50 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.app = exports.App = void 0;
-var Wss_1 = require("./Wss");
-var HttpServer_1 = require("./HttpServer");
-var t_bot_1 = require("./../chatbots/t_bot");
-var Storage_1 = require("./Storage");
-var App = /** @class */ (function () {
-    function App(listeners, storage) {
-        this.arrayListeners = [];
-        this.arrayListeners = listeners;
-        this.storage = storage;
+exports.CommandExecutor = void 0;
+var CommandExecutor = /** @class */ (function () {
+    function CommandExecutor(factory) {
+        this.factory = factory;
     }
-    App.prototype.start = function () {
+    CommandExecutor.prototype.createCommand = function (type, args, id, date) {
+        return this.factory.createCommand(type, args, id, date);
+    };
+    /*
+        создает команду и возвращеает то что она далает.
+    
+    
+    
+    
+    */
+    CommandExecutor.prototype.commandExecute = function (com, id) {
         return __awaiter(this, void 0, void 0, function () {
+            var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.storage.intitStorage()];
+                    case 0: return [4 /*yield*/, com.execute()];
                     case 1:
-                        if (!(_a.sent())) {
-                            console.log("error at init storage!");
-                            process.exit(1);
-                        }
-                        this.arrayListeners.forEach(function (e) { return e.start(); });
-                        return [2 /*return*/];
+                        res = _a.sent();
+                        if (res !== undefined)
+                            return [2 /*return*/, { fn: res, chatId: id }];
+                        return [2 /*return*/, true];
                 }
             });
         });
     };
-    return App;
+    CommandExecutor.prototype.getCommandResult = function (type, args, id, date) {
+        return __awaiter(this, void 0, void 0, function () {
+            var com;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        com = this.createCommand(type, args, id, date);
+                        return [4 /*yield*/, this.commandExecute(com, id)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    ;
+    return CommandExecutor;
 }());
-exports.App = App;
-exports.app = new App([HttpServer_1.httpServer, Wss_1.wss, t_bot_1.tbot], Storage_1.storage);
+exports.CommandExecutor = CommandExecutor;

@@ -36,34 +36,62 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.app = exports.App = void 0;
-var Wss_1 = require("./Wss");
-var HttpServer_1 = require("./HttpServer");
-var t_bot_1 = require("./../chatbots/t_bot");
-var Storage_1 = require("./Storage");
-var App = /** @class */ (function () {
-    function App(listeners, storage) {
-        this.arrayListeners = [];
-        this.arrayListeners = listeners;
-        this.storage = storage;
+exports.chatResurce = exports.ChatResurce = void 0;
+var Storage_1 = require("../classes/Storage");
+var Room = require("../models/Room");
+var User = require("../models/User");
+var ChatResurce = /** @class */ (function () {
+    function ChatResurce(model, roomModel, storage) {
+        this.model = model;
+        this.roomModel = roomModel;
+        this.Storage = Storage_1.Storage;
     }
-    App.prototype.start = function () {
+    ChatResurce.prototype.getClients = function (roomID) {
         return __awaiter(this, void 0, void 0, function () {
+            var store;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.storage.intitStorage()];
+                    case 0: return [4 /*yield*/, this.Storage.getItemWithConditionally(this.model, ["room", "chatId"], [roomID, { $exists: true }], ["chatId"])];
                     case 1:
-                        if (!(_a.sent())) {
-                            console.log("error at init storage!");
-                            process.exit(1);
-                        }
-                        this.arrayListeners.forEach(function (e) { return e.start(); });
-                        return [2 /*return*/];
+                        store = _a.sent();
+                        return [2 /*return*/, store.map(function (e) { return e.chatId; })];
                 }
             });
         });
     };
-    return App;
+    ChatResurce.prototype.getChat = function (roomID) {
+        return __awaiter(this, void 0, void 0, function () {
+            var chat;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.Storage.getItemByID(this.roomModel, roomID, ['chat'])];
+                    case 1:
+                        chat = (_a.sent()).chat;
+                        return [2 /*return*/, chat];
+                }
+            });
+        });
+    };
+    ChatResurce.prototype.setChat = function (roomID, msg) {
+        return __awaiter(this, void 0, void 0, function () {
+            var e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.Storage.pushItem(this.roomModel, { "_id": roomID }, "chat", msg)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, true];
+                    case 2:
+                        e_1 = _a.sent();
+                        return [2 /*return*/, false];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return ChatResurce;
 }());
-exports.App = App;
-exports.app = new App([HttpServer_1.httpServer, Wss_1.wss, t_bot_1.tbot], Storage_1.storage);
+exports.ChatResurce = ChatResurce;
+exports.chatResurce = new ChatResurce(User, Room, Storage_1.Storage);

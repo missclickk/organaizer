@@ -1,9 +1,9 @@
 const Mongoose=require('mongoose');
 class Storage {
-    #mDb;
+    #database;
     MONGO_URI = "mongodb+srv://us:123@organizer.x9hju.mongodb.net/<dbname>?retryWrites=true&w=majority";
     constructor(mDb) {
-        this.#mDb = mDb;
+        this.#database = mDb;
     }
     async intitStorage() {
         try {
@@ -36,7 +36,6 @@ static async getItemWithOrConditionally(model, filds, fildsVal, fildsOr, fildsVa
 
 static async getItemWithConditionally (model, filds, fildsVal, returnVals = []){
     try {
-
         const conditions = filds.map((e, i) => { return { [e]: fildsVal[i] } });
         return await model.find({}, returnVals.reduce((a, val) => a + ' ' + val, " ")).and(conditions);
 
@@ -101,7 +100,6 @@ static async deleteItem  (model, query, value)  {
 }
 static async setItem(model, query, param, val){
     try {
-        console.log('hi');
         const updateDocument = { $set: { [param]: val } }
         console.log(updateDocument);
         await model.updateOne(query, updateDocument);

@@ -8,7 +8,7 @@ class TodoResurce {
     constructor(model, roomModel) {
         this.#model = model;
         this.#roomModel = roomModel
-    }
+    }   
     async getTodos(room, user) {
         try {
 
@@ -16,7 +16,7 @@ class TodoResurce {
             const fildsVal = [{ '$exists': false }, room];
             const filds1 = [`users.${user}`, 'room'];
             const fildsVal1 = [true, room];
-            console.log(await Storage.getItemWithOrConditionally(this.#model, filds, fildsVal, filds1, fildsVal1, ['_id', 'title', 'tasks']))
+       //     console.log(await Storage.getItemWithOrConditionally(this.#model, filds, fildsVal, filds1, fildsVal1, ['_id', 'title', 'tasks']))
             return await Storage.getItemWithOrConditionally(this.#model, filds, fildsVal, filds1, fildsVal1, ['_id', 'title', 'tasks']);
 
         }
@@ -26,7 +26,8 @@ class TodoResurce {
         }
     }
     async addItem(todo, room) {
-       
+        console.log(todo);
+        console.log(room);
         let obj;
         if (obj = await Storage.addItem(this.#model, { ...todo, room }, true)) {
             await Storage.pushItem(this.#roomModel, { _id: room }, 'todos', obj._id);

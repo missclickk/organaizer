@@ -36,34 +36,41 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.app = exports.App = void 0;
-var Wss_1 = require("./Wss");
-var HttpServer_1 = require("./HttpServer");
-var t_bot_1 = require("./../chatbots/t_bot");
-var Storage_1 = require("./Storage");
-var App = /** @class */ (function () {
-    function App(listeners, storage) {
-        this.arrayListeners = [];
-        this.arrayListeners = listeners;
-        this.storage = storage;
+exports.SendKeyBoardCommand = void 0;
+var t_bot_1 = require("../t_bot");
+var KEYBOARD_TYPE;
+(function (KEYBOARD_TYPE) {
+    KEYBOARD_TYPE[KEYBOARD_TYPE["USERS"] = 0] = "USERS";
+})(KEYBOARD_TYPE || (KEYBOARD_TYPE = {}));
+var SendKeyBoardCommand = /** @class */ (function () {
+    function SendKeyBoardCommand(args, chatId, resurce, wrapper) {
+        this.chatId = chatId;
+        ;
+        this.args = args;
+        this.resurce = resurce;
+        this.wrapper = wrapper;
     }
-    App.prototype.start = function () {
+    SendKeyBoardCommand.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var users, keyboard, room;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.storage.intitStorage()];
+                    case 0: return [4 /*yield*/, this.resurce.getListByChatId(this.chatId)];
                     case 1:
-                        if (!(_a.sent())) {
-                            console.log("error at init storage!");
-                            process.exit(1);
-                        }
-                        this.arrayListeners.forEach(function (e) { return e.start(); });
-                        return [2 /*return*/];
+                        users = _a.sent();
+                        keyboard = users.map(function (e) { return [e.login]; });
+                        keyboard.push(["далее"]);
+                        keyboard.push(["отмена"]);
+                        if (KEYBOARD_TYPE.USERS === 0)
+                            t_bot_1.tbot.sendKeyboard(this.chatId, "ВЫберете пользователей котоым будет виден этот список", keyboard);
+                        return [4 /*yield*/, this.resurce.getUserByChatId(this.chatId)];
+                    case 2:
+                        room = (_a.sent()).room;
+                        return [2 /*return*/, this.wrapper.bind(null, this.args.join(" "), room, users.map(function (e) { return e.login; }))];
                 }
             });
         });
     };
-    return App;
+    return SendKeyBoardCommand;
 }());
-exports.App = App;
-exports.app = new App([HttpServer_1.httpServer, Wss_1.wss, t_bot_1.tbot], Storage_1.storage);
+exports.SendKeyBoardCommand = SendKeyBoardCommand;

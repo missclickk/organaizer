@@ -36,34 +36,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.app = exports.App = void 0;
-var Wss_1 = require("./Wss");
-var HttpServer_1 = require("./HttpServer");
-var t_bot_1 = require("./../chatbots/t_bot");
-var Storage_1 = require("./Storage");
-var App = /** @class */ (function () {
-    function App(listeners, storage) {
-        this.arrayListeners = [];
-        this.arrayListeners = listeners;
-        this.storage = storage;
+exports.SendCommand = void 0;
+var SendCommand = /** @class */ (function () {
+    function SendCommand(args, chatId, date, executor, resurce) {
+        this.msg = args.toString();
+        this.chatId = chatId;
+        this.executor = executor;
+        this.resurce = resurce;
+        this.date = date;
     }
-    App.prototype.start = function () {
+    SendCommand.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var data, fakeSocket, reqData;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.storage.intitStorage()];
+                    case 0: return [4 /*yield*/, this.resurce.getUserByChatId(this.chatId)];
                     case 1:
-                        if (!(_a.sent())) {
-                            console.log("error at init storage!");
-                            process.exit(1);
-                        }
-                        this.arrayListeners.forEach(function (e) { return e.start(); });
+                        data = _a.sent();
+                        fakeSocket = { socket: { data: "FAKE SOCKET" }, roomId: data.room, id: Date.now().toString() };
+                        reqData = { roomID: data.room, loginUser: data.login, msg: this.msg, date: this.date };
+                        this.executor(fakeSocket, reqData);
                         return [2 /*return*/];
                 }
             });
         });
     };
-    return App;
+    return SendCommand;
 }());
-exports.App = App;
-exports.app = new App([HttpServer_1.httpServer, Wss_1.wss, t_bot_1.tbot], Storage_1.storage);
+exports.SendCommand = SendCommand;
