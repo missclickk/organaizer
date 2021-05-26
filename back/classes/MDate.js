@@ -69,16 +69,9 @@ class MDate {
         return new MDate(date);
     }
 }
-/*
-const test2 = new MDate(moment().format());
-const test=moment().date(11).year(2020).month(1);
-
-console.log(test2.compareDate(test,['mEqual'],['full'],'and'));
-*/
 
 
-
-module.exports={MDate};
+module.exports={MDate,currentDate:new MDate(moment())};
 
 
 

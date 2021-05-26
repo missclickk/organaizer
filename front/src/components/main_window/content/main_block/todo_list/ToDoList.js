@@ -11,14 +11,14 @@ useEffect(()=>{
 
 
 let i=0;
-let fin=[];
+let todos=[];
 for(let obj in todoTasks){ 
-    fin.push(<TdCard key={i} id={todoTasks[obj]._id} title={todoTasks[obj].title} tasks={todoTasks[obj].tasks}/>);
+    todos.push(<TdCard key={i} id={todoTasks[obj]._id} title={todoTasks[obj].title} tasks={todoTasks[obj].tasks}/>);
 i++;
 }
     return  <div className='tdList-conteiner'>{ todoTasks.length === 0 ?<h1 className="tdList__message">СЕЙЧАС ЗДЕСЬ ПУСТО</h1>
         : <div className="tdList-conteiner__cards-conteiner">
-           {fin}
+           {todos}
         </div>}
     </div>
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import EmailInput from './EmailInput'
 import LoginInput from './LoginInput'
 import PasswordInput from './PasswordInput'
-import RoomIdInput from './RoomIdInput'
+import RoomIdInput from './RoomIdInput '
 const InputsWrapper=()=> <div>
     <EmailInput/>
     <LoginInput/>

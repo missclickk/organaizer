@@ -12,11 +12,11 @@ const MainBlock = ({ room, login, mode, printMode, date, getTasks, getTodos, isL
    
    
     useEffect(() => {
-        if (printMode == "TD_LIST")
+        if (printMode === "TD_LIST")
             getTodos(login, room);
         else
             getTasks(printMode, date, room, login);
-    }, [printMode, date, getTasks, getTodos]);
+    }, [printMode, date, getTasks, getTodos,login,room]);
 
 
 
@@ -24,7 +24,7 @@ const MainBlock = ({ room, login, mode, printMode, date, getTasks, getTodos, isL
 
 
     return isLoading ? <Loader /> :
-        <div className='content__main'>
+            <div className='content__main'>
             <div className='content__main__header'>
                 {mode === "TD_LIST" ? null : <DateBlock />}
                 <Buttons />

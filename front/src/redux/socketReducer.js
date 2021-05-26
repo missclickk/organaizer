@@ -1,4 +1,4 @@
-import { regUser } from './actions';
+
 import {SOCKET_INIT} from './types'
 const CHAT_MSG="chat_msg";
 
@@ -7,19 +7,17 @@ const initialState={
     chatMsgHandler:()=>{}
 }
 
-
-
-
 export const socketReducer=(state=initialState,action)=>{
     switch(action.type){
         case SOCKET_INIT:
-            const newScoket=new WebSocket('ws://localhost:4001');
+            const newScoket=new WebSocket('ws://localhost:8081');
             newScoket.onopen=()=>newScoket.send(JSON.stringify({type:'reg',roomID:action.roomId}));
             newScoket.onmessage=(response)=>{
-                const   {type,data}=JSON.parse(response.data);
+                const   {type,message}=JSON.parse(response.data);
                 switch(type){
                 case CHAT_MSG:
-                    action.payload(data)
+                    console.log(message);
+                    action.payload(message);
                     default:
                     break;
                 }
@@ -29,8 +27,8 @@ export const socketReducer=(state=initialState,action)=>{
 
 
 
-        default:
-        return {...state};
+        default: return {...state};
+        
     }
     
 

@@ -23,10 +23,10 @@ const WeekList = ({weekRange, currentWeekTasks}) => {
 
 const mapStateToProps = (state) => {
     return {
-        printMode:state.render.mainBlockItem,
+    //    printMode:state.render.mainBlockItem,
         currentWeekTasks: state.task.currentWeekTasks,
         weekRange: state.date.weekRange,
-        date:state.date.date
+    //    date:state.date.date
     }
 }
 
