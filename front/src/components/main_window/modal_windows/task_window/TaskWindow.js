@@ -33,7 +33,7 @@ const TaskWindow = ({getUsersList,room,login,getTodos,todoId,setTodoTask, addTod
     }
 
 
-    const executeFun = () => {
+    const sendDataToActions = () => {
         const conteiner = document.querySelector(".task-conteiner__input-conteiner");
         const taskObj = getDataFromForm(conteiner);
      
@@ -65,10 +65,14 @@ const TaskWindow = ({getUsersList,room,login,getTodos,todoId,setTodoTask, addTod
         }
     }
 
-    const okBtn = type === "taskOutput" ? <OkBtn funArr={[closeWinTask, clearErrorList]} args={{ 0: [null], 1: [false] }} text='OK' /> : <OkBtn funArr={[executeFun]} args={{ 0: [] }} text='СОЗДАТЬ' />;
-
+    const okBtn = type === "taskOutput" ? <OkBtn funArr={[closeWinTask, clearErrorList]} args={{ 0: [null], 1: [false] }} text='OK' /> 
+    : <OkBtn funArr={[sendDataToActions]} args={{ 0: [] }} text='СОЗДАТЬ' />;
+   
+   
+   
     getUsersList(room);
-    return <div className="conteiner-background" onClick={closeWinBack}>
+
+return <div className="conteiner-background" onClick={closeWinBack}>
         <div className="task-conteiner">
             <CloseBtn funArr={[closeWinTask, clearErrorList]} args={{ 0: [null], 1: [null] }} />
             <InputsConteiner type={type} />

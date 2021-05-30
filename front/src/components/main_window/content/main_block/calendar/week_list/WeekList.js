@@ -9,7 +9,6 @@ const WeekList = ({weekRange, currentWeekTasks}) => {
 
    
     let weekDays = [];
-   
     let clone =moment( weekRange.first);
     for (let i = 0; i < 7; i++){
         weekDays.push(<ListCard key={clone.date()} tasks={currentWeekTasks[i]} date={clone.date()} />)
@@ -23,10 +22,10 @@ const WeekList = ({weekRange, currentWeekTasks}) => {
 
 const mapStateToProps = (state) => {
     return {
-        printMode:state.render.mainBlockItem,
+    //    printMode:state.render.mainBlockItem,
         currentWeekTasks: state.task.currentWeekTasks,
         weekRange: state.date.weekRange,
-        date:state.date.date
+    //    date:state.date.date
     }
 }
 

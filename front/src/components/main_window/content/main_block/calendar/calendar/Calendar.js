@@ -5,10 +5,8 @@ import CalendarCard from './CalendarCard'
 import { getTasks } from '../../../../../../redux/actions'
 
 const Calendar = (props) => {
-  
     let calendarCards = [];
     let mouthTasks = props.tasks;
-    console.log(props.numberOfDays);
     for (let i = 0; i < props.numberOfDays; i++)
     if(mouthTasks[i]!==undefined && mouthTasks[i]!==null){
         calendarCards.push(<CalendarCard key={i} i={i} length={mouthTasks[i].length} />)

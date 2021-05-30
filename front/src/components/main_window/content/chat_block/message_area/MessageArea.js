@@ -11,7 +11,7 @@ const MessageArea=({messages})=>{
 
 
     return <div className="message-area" >
-        { messages.map(e=><Message login={e.loginUser} hour={e.hour} minute={e.minute} msg={e.msg}/>)}
+        { messages.map((e,i)=><Message key={i} login={e.loginUser} hour={e.hour} minute={e.minute} msg={e.msg}/>)}
     </div>
 }   
 

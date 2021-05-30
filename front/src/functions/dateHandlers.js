@@ -1,14 +1,14 @@
 import moment from 'moment'
 
-export const getNumberOfDays = (currentDate = moment()) =>currentDate.add(1,"M").date(1).subtract(1,'d').date();
+export const getNumberOfDays = (currentDate = moment()) =>moment(currentDate).add(1,"M").date(1).subtract(1,'d').date();
 
 
 const getNextDate=(date,num,type)=>{
-    return date.add(num,type);
+    return moment(date).add(num,type);
 }
 
 const getPrevDate=(date,num,type)=>{
-    return date.subtract(num,type);
+    return moment(date).subtract(num,type);
 }
 
 
@@ -18,10 +18,8 @@ const getPrevDate=(date,num,type)=>{
 }
 
  const getWeek = (direction, date) => {
-     console.log(date.format());
-     console.log(direction);
+
      const d=direction === "next" ? getNextDate(date,7,'d') : getPrevDate(date,7,'d');
-    console.log(d.format());
     return d;
     }
 
