@@ -10,7 +10,7 @@ const initialState={
 export const socketReducer=(state=initialState,action)=>{
     switch(action.type){
         case SOCKET_INIT:
-            const newScoket=new WebSocket('ws://localhost:8081');
+            const newScoket=new WebSocket('ws://localhost:4000');
             newScoket.onopen=()=>newScoket.send(JSON.stringify({type:'reg',roomID:action.roomId}));
             newScoket.onmessage=(response)=>{
                 const   {type,message}=JSON.parse(response.data);

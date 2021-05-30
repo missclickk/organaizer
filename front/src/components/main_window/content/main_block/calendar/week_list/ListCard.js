@@ -3,7 +3,7 @@ import './WeekList.css'
 import Task from './Task'
 const ListCard=(props)=>{
     let tasks=[];
-    if(props.tasks!==undefined)
+    if(props.tasks!=undefined)
      tasks=props.tasks.map((e,i)=>{
         return<Task key={i}  task={e}/>
     })

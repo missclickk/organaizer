@@ -46,9 +46,7 @@ var Wss = /** @class */ (function () {
         this.messageHandler = function (socket, message) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        console.log(3);
-                        return [4 /*yield*/, this.msgDistribution.handelIncomingMsg(socket, message)];
+                    case 0: return [4 /*yield*/, this.msgDistribution.handelIncomingMsg(socket, message)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -70,27 +68,20 @@ var Wss = /** @class */ (function () {
             socket.on('close', _this.closureHandler.bind(null, socket));
         };
         this.msgDistribution = msgDistribution;
-        this.initHttpServer(http);
+        this.server = http.createServer();
         this.initWss(ws);
         this.msgDistribution.registrObserver(this);
     }
-    Wss.prototype.initHttpServer = function (http) {
-        this.server = http.createServer(function (req, res) {
-            res.writeHead(200);
-            res.end('hello it\'s 40001 port');
-        });
-    };
     Wss.prototype.initWss = function (ws) {
         this.wss = new ws.Server({ server: this.server, clientTracking: true });
+        this.wss.on('connection', this.connectHandle);
     };
     Wss.prototype.sendMessage = function (socket, obj) {
         switch (obj.mode) {
             case "sender":
-                console.log(1.1);
                 socket.send(JSON.stringify(obj.data));
                 break;
             case "all":
-                console.log(2.1);
                 obj.data.clients.forEach(function (e) {
                     e.send(JSON.stringify({ type: obj.data.type, message: obj.data.message }));
                 });
@@ -101,12 +92,10 @@ var Wss = /** @class */ (function () {
         }
     };
     Wss.prototype.update = function (args) {
-        console.log(1.2);
         this.sendMessage(args[0], args[1]);
     };
-    Wss.prototype.start = function () {
-        this.server.listen(8081, function () { console.log('Hi, I\'m WebSokcet server!!!'); });
-        this.wss.on('connection', this.connectHandle);
+    Wss.prototype.getWss = function () {
+        return this.server;
     };
     return Wss;
 }());

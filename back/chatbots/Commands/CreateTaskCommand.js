@@ -36,44 +36,57 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.disconnectHanlder = exports.DisconnectHanlder = void 0;
-var TimersStorage_1 = require("./../Storages/TimersStorage");
-var MsgStorage_1 = require("./../Storages/MsgStorage");
-var chatbot_resurce_1 = require("./../../resurce/chatbot.resurce");
-var DisconnectHanlder = /** @class */ (function () {
-    function DisconnectHanlder(timer, msg, resurce) {
-        this.msgStore = msg;
-        this.timerStore = timer;
+exports.CreateTaskCommand = exports.CreateTaskWrapper = void 0;
+var CommandFactory_1 = require("./CommandFactory");
+//title users room
+function CreateTaskWrapper(room, title, usersList, args) {
+    var users = args.splice(4);
+    var obj = {};
+    usersList.forEach(function (e) { return users.includes(e) ? obj[e] = true : obj[e] = false; });
+    var period;
+    switch (args[3]) {
+        case "никогда":
+            period = "never";
+            break;
+        case "каждый день":
+            period = "day";
+            break;
+        case "каждую неделю ":
+            period = "week";
+            break;
+        case "каждый месяц":
+            period = "month";
+            break;
+        case "каждый год":
+            period = "year";
+            break;
+        default: break;
+    }
+    var task = { title: title, description: args[0], date: args[1], time: args[2], period: period, users: obj };
+    var factory = new CommandFactory_1.CommandFactory();
+    return factory.createCommand("create_task_sec", [room, JSON.stringify(task)]);
+}
+exports.CreateTaskWrapper = CreateTaskWrapper;
+var CreateTaskCommand = /** @class */ (function () {
+    function CreateTaskCommand(args, resurce, validator) {
+        console.log(args);
+        this.room = args[0];
+        this.task = JSON.parse(args[1]);
+        this.validator = validator;
         this.resurce = resurce;
     }
-    DisconnectHanlder.prototype.deleteCacheEnty = function (socket) {
+    CreateTaskCommand.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var obj;
             return __generator(this, function (_a) {
-                obj = this.msgStore.getItemByName(socket.roomId, "chat");
-                if (obj.concat !== undefined && obj.length > 0)
-                    this.resurce.setChat(socket.roomId, obj);
-                this.msgStore.deleteItemByName(socket.roomId);
-                this.timerStore.deleteItemByName(socket.roomId);
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.resurce.addItem(this.task, this.room)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
-    DisconnectHanlder.prototype.setTimer = function (socket) {
-        this.timerStore.setItemByName(socket.roomId, setTimeout(this.deleteCacheEnty.bind(this, socket), 3000));
-    };
-    DisconnectHanlder.prototype.handelMsg = function (socket) {
-        var clients = this.msgStore.getItemByName(socket.roomId, "clients");
-        var obj = clients;
-        if (obj.indexOf === undefined || obj.splice === undefined)
-            throw new Error("this clients or room not exists");
-        obj.splice(obj.indexOf(socket.socket), 1);
-        if (obj.length === 0)
-            this.setTimer(socket);
-        else
-            this.msgStore.updateItemByName(socket.roomId, ["clients"], obj);
-    };
-    return DisconnectHanlder;
+    return CreateTaskCommand;
 }());
-exports.DisconnectHanlder = DisconnectHanlder;
-exports.disconnectHanlder = new DisconnectHanlder(TimersStorage_1.timersStorage, MsgStorage_1.msgStorage, chatbot_resurce_1.chatResurce);
+exports.CreateTaskCommand = CreateTaskCommand;

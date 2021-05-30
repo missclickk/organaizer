@@ -10,17 +10,10 @@ import {CommandResponse} from './t_bot'
     private createCommand(type: string, args: Array<string>, id: string, date: string): Command {
         return this.factory.createCommand(type, args, id, date);
     }
-    /*
-        создает команду и возвращеает то что она далает.
-    
-    
-    
-    
-    */
     private async commandExecute(com:Command,id:string):Promise<boolean|CommandResponse>{
         const res =await com.execute();
         if( res!==undefined)   
-                return {fn:res as Function,chatId:id};
+                return {fn:(res as {wrapper}).wrapper,chatId:id,commandType:(res as {commandType}).commandType};
             return true;  
     
     }

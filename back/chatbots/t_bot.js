@@ -46,6 +46,7 @@ var CHAT_STATUS;
     CHAT_STATUS[CHAT_STATUS["MESSAGE_CHAIN"] = 1] = "MESSAGE_CHAIN";
     CHAT_STATUS[CHAT_STATUS["KEYBOARD_CHAIN"] = 2] = "KEYBOARD_CHAIN";
 })(CHAT_STATUS || (CHAT_STATUS = {}));
+var PERIOD_ARRAY = [["никогда"], ["каждый день"], ["каждую неделю"], ["каждый месяц"], ["каждый год"]];
 var TOKEN = "1751041214:AAGNTL9PX2k0TWCUoj2pdTiS5Xr_5oeLoik";
 var TBot = /** @class */ (function () {
     function TBot(token, tBot, executor) {
@@ -89,10 +90,66 @@ var TBot = /** @class */ (function () {
         return { type: type, args: args };
     };
     TBot.prototype.handelMessage = function (response) {
-        if (response.chatId === undefined)
+        if (response.commandType === undefined)
             return true;
         var res = response;
-        this.chatState.set(res.chatId, { wrapper: res.fn, status: CHAT_STATUS.KEYBOARD_CHAIN, state: [] });
+        this.chatState.set(res.chatId, { wrapper: res.fn, state: [], commandType: res.commandType });
+    };
+    TBot.prototype.handelChainMsg = function (text, chatId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var chatState, _a, index;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        chatState = this.chatState.get(chatId);
+                        _a = chatState.commandType;
+                        switch (_a) {
+                            case "users": return [3 /*break*/, 1];
+                            case "disciprion": return [3 /*break*/, 2];
+                            case "date": return [3 /*break*/, 3];
+                            case "time": return [3 /*break*/, 4];
+                            case "period": return [3 /*break*/, 5];
+                        }
+                        return [3 /*break*/, 7];
+                    case 1:
+                        index = chatState.state.indexOf(text);
+                        if (index === -1) {
+                            chatState.state.push(text);
+                            this.sendMessage(chatId, "\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C " + text + " \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D \u2705");
+                        }
+                        else {
+                            chatState.state.splice(index, 1);
+                            this.sendMessage(chatId, "\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C " + text + " \u0443\u0434\u0430\u043B\u0435\u043D \u274C");
+                        }
+                        this.chatState.set(chatId, chatState);
+                        return [2 /*return*/]; // не доходит до конца функции а завершается здесь 
+                    case 2:
+                        chatState.commandType = "date";
+                        this.sendMessage(chatId, "ВВЕДИТЕ ДАТУ В ФОРМАТЕ гггг-мм-дд");
+                        return [3 /*break*/, 8];
+                    case 3:
+                        chatState.commandType = "time";
+                        this.sendMessage(chatId, "ВВЕДИТЕ ВРЕМЯ В ФОРМАТЕ чч:мм");
+                        return [3 /*break*/, 8];
+                    case 4:
+                        chatState.commandType = "period";
+                        this.sendKeyboard(chatId, "ВЫБЕРЕТЕ ПРИРОД ПОВТАРЕНИЯ", PERIOD_ARRAY);
+                        return [3 /*break*/, 8];
+                    case 5:
+                        chatState.commandType = "users";
+                        return [4 /*yield*/, this.executor.getCommandResult("/send_users", [], chatId, "date")];
+                    case 6:
+                        _b.sent();
+                        return [3 /*break*/, 8];
+                    case 7: return [3 /*break*/, 8];
+                    case 8:
+                        chatState.state.push(text);
+                        chatState.wrapper.bind(null, text);
+                        this.chatState.set(chatId, chatState);
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     TBot.prototype.handelChain = function (text, chatId) {
         switch (text) {
@@ -101,21 +158,14 @@ var TBot = /** @class */ (function () {
                 this.chatState["delete"](chatId);
                 break;
             case "далее":
+                console.log(this.chatState.get(chatId));
+                this.closeKeyboard(chatId, "THE END");
                 var obj = this.chatState.get(chatId);
                 this.chatState["delete"](chatId);
                 obj.wrapper(obj.state).execute();
                 break;
             default:
-                var state = this.chatState.get(chatId).state;
-                var index = state.indexOf(text);
-                if (index === -1) {
-                    state.push(text);
-                    this.sendMessage(chatId, "\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C " + text + " \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D \u2705");
-                }
-                else {
-                    state.splice(index, 1);
-                    this.sendMessage(chatId, "\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C " + text + " \u0443\u0434\u0430\u043B\u0435\u043D \u274C");
-                }
+                this.handelChainMsg(text, chatId);
                 break;
         }
     };

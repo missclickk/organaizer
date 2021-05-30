@@ -42,7 +42,6 @@ var CommandFactory_1 = require("./CommandFactory");
 function CreateToDoWrapper(room, title, usersList, users) {
     var obj = {};
     usersList.forEach(function (e) { return users.includes(e) ? obj[e] = true : obj[e] = false; });
-    console.log(obj);
     var args = [room, title, JSON.stringify(users)];
     var factory = new CommandFactory_1.CommandFactory();
     return factory.createCommand("create_todo_sec", args);
@@ -50,8 +49,8 @@ function CreateToDoWrapper(room, title, usersList, users) {
 exports.CreateToDoWrapper = CreateToDoWrapper;
 var CreatTodoCommand = /** @class */ (function () {
     function CreatTodoCommand(args, resurce, validator) {
-        this.room = args[1];
-        this.title = args[0];
+        this.room = args[0];
+        this.title = args[1];
         this.users = JSON.parse(args[2]);
         this.validator = validator;
         this.resurce = resurce;

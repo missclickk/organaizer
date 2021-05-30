@@ -10,15 +10,18 @@ enum CHAT_STATUS {
     KEYBOARD_CHAIN,
 
 }
+const PERIOD_ARRAY:Array<string[]>=[["никогда"],["каждый день"],["каждую неделю"],["каждый месяц"],["каждый год"]];
 
 export type CommandResponse = {
     fn: Function,
-    chatId: string
+    chatId: string,
+    commandType:string
 }
 type CHAT_STATE={
     wrapper: Function | null;
-    status: CHAT_STATUS;
     state:Array<string>;
+    commandType:string
+
 }
 
 const TOKEN: string = "1751041214:AAGNTL9PX2k0TWCUoj2pdTiS5Xr_5oeLoik";
@@ -35,7 +38,6 @@ export class TBot implements IListener, Bot {
         this.executor = executor;
 
     }
-
     private createBot(bot: any): void {
         this.bot = new bot(this.token, {
             polling: {
@@ -61,11 +63,6 @@ export class TBot implements IListener, Bot {
             }
         })
     }
-
-
-
-
-
     sendMessage(chatId: string, msg: string): void {
         this.bot.sendMessage(chatId, msg);
     }
@@ -77,11 +74,52 @@ export class TBot implements IListener, Bot {
     }
 
     handelMessage(response: boolean | CommandResponse) {
-        if ((response as CommandResponse).chatId === undefined)
+        if ((response as CommandResponse).commandType === undefined)
             return true;
         const res = response as CommandResponse;
-       this.chatState.set(res.chatId,{wrapper: res.fn,status:CHAT_STATUS.KEYBOARD_CHAIN,state:[]});
+       this.chatState.set(res.chatId,{wrapper: res.fn,state:[],commandType:res.commandType});
     }
+   
+    private async handelChainMsg(text:string,chatId:string){
+        let chatState=this.chatState.get(chatId)
+        switch(chatState.commandType){
+            case "users":
+                const index=chatState.state.indexOf(text);
+                if(index===-1)
+                {
+                    chatState.state.push(text);
+                    this.sendMessage(chatId,`пользователь ${text} добавлен \u2705`)
+                }
+                    else
+                     {   
+                        chatState.state.splice(index,1);    
+                        this.sendMessage(chatId,`пользователь ${text} удален \u274C`)
+                    }
+                    this.chatState.set(chatId,chatState);
+                return;// не доходит до конца функции а завершается здесь 
+            case"disciprion":
+            chatState.commandType="date";
+            this.sendMessage(chatId, "ВВЕДИТЕ ДАТУ В ФОРМАТЕ гггг-мм-дд");
+            break;
+            case "date":
+            chatState.commandType="time";
+            this.sendMessage(chatId, "ВВЕДИТЕ ВРЕМЯ В ФОРМАТЕ чч:мм");
+                break;
+             case "time":
+                chatState.commandType="period";
+                this.sendKeyboard(chatId, "ВЫБЕРЕТЕ ПРИРОД ПОВТАРЕНИЯ",PERIOD_ARRAY);
+                 break;
+             case "period":
+                chatState.commandType="users";
+                await this.executor.getCommandResult( "/send_users", [], chatId, "date")
+                 break;       
+            default: break;
+        }
+        chatState.state.push(text);
+        chatState.wrapper.bind(null,text);
+        this.chatState.set(chatId,chatState);
+    }
+
     private handelChain(text: string, chatId: string) {
         switch(text){
             case "отмена":
@@ -89,23 +127,14 @@ export class TBot implements IListener, Bot {
                 this.chatState.delete(chatId)
                 break;
                 case "далее":
-                    const obj=this.chatState.get(chatId)
+                    console.log(this.chatState.get(chatId));
+                    this.closeKeyboard(chatId, "THE END");
+                    const obj=this.chatState.get(chatId);
                     this.chatState.delete(chatId);
                     obj.wrapper(obj.state).execute();
                     break;
                     default:
-                        let state=this.chatState.get(chatId).state;
-                           const index=state.indexOf(text);
-                                if(index===-1)
-                                {
-                                    state.push(text);
-                                    this.sendMessage(chatId,`пользователь ${text} добавлен \u2705`)
-                                }
-                                    else
-                                     {   state.splice(index,1);    
-                                        this.sendMessage(chatId,`пользователь ${text} удален \u274C`)
-                                    }
-                    
+                        this.handelChainMsg(text,chatId);    
                     break;
         }
     
@@ -117,7 +146,7 @@ export class TBot implements IListener, Bot {
                 const { text, chat, date } = msg; 
                 if(!this.chatState.has(chat.id)){     
                 const { type, args } = this.parseText(text as string);
-                        this.handelMessage(await this.executor.getCommandResult(type, args, chat.id, date));
+                this.handelMessage(await this.executor.getCommandResult(type, args, chat.id, date));
                 }
                 else
                         this.handelChain(msg.text, chat.id);

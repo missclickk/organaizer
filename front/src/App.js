@@ -8,7 +8,7 @@ import LoginWrapper from "./components/login_window/LoginWrapper";
 function App({isLogin}) {
 
   return (
-    <div className="App">
+    <div  className="App">
       {isLogin==='login'? <Redirect from='/*' to='app'/>: <Redirect from='/*' to='login'/>}
       <Route exact path='/app'><MainWindow/></Route>
       <Route exact path='/login'><LoginWrapper/></Route>

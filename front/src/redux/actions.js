@@ -178,7 +178,7 @@ export function createTask(task,room) {
             const json = await response.json();
             dispatch({
                 type: SET_ERROR_LIST_T,
-                payload: json.message.map(e => e.msg),
+                payload: json.msg,
             })
         }
     }

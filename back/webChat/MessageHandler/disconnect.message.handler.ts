@@ -2,13 +2,6 @@ import { SocketCustom } from './../types'
 import { TimersStorage, timersStorage } from './../Storages/TimersStorage'
 import { MsgStorage, msgStorage } from './../Storages/MsgStorage'
 import { ChatResurce,chatResurce} from './../../resurce/chatbot.resurce'
-/* 
-    -получаем элементы map по socekt.roomID
-    - в массиве clients удаляем элемент равный socket.socket===clients[i];
-    -проверяем длину  clients, если она равна 0, то создаем таймер.
-    -когда таймер сробатывает, происходит запись в бд, удаление таймера, удаление записи в msgStorage;   
-  
-  */
 
 export class DisconnectHanlder {
   private timerStore: TimersStorage;
@@ -39,7 +32,6 @@ export class DisconnectHanlder {
     if (obj.indexOf === undefined || obj.splice === undefined)
       throw new Error("this clients or room not exists");
     obj.splice(obj.indexOf(socket.socket), 1);
-    console.log(obj.length);
     if(obj.length===0)
       this.setTimer(socket);
     else

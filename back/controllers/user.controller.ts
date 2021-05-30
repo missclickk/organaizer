@@ -17,7 +17,8 @@ export class UserController {
         try {
           //  const validateResult = this.validator.validate({ email,password });
           //  if (validateResult.length > 0)
-          //      throw new Error("неправильный email,логин или пароль");
+          
+          //     throw new Error("неправильный email,логин или пароль");
             const result: Error | { login: string, room: string } = await this.getUser(email, password);
             const resultAsError: Error = result as Error;
             const user: { login: string, room: string } = result as { login: string, room: string };
@@ -33,9 +34,7 @@ export class UserController {
             console.log(`user.controller 70 ${e.message}`);
         }
     }
-
-
-
+ 
     async getUserList(roomId: string): Promise<Array<{ _id: string, login: string }> | Error> {
         const users: Array<{ _id: string, login: string }> = await this.resurce.getList(roomId);
         if (users.length !== 0)
@@ -50,7 +49,6 @@ export class UserController {
             if (this.validator.validate({ email })[0] === 1)
                 throw new Error("неправильный email");
             const user:{_id:string,login:string,password:string,room:string}= await this.resurce.getUser(email);
-            console.log(user);
             if (!user)
                 throw new Error("email не найден");
             if (await this.bcrypt.compare(password, user[0].password)) {
@@ -66,15 +64,16 @@ export class UserController {
 
     }
 
-    async createUser(email: string, reqlogin: string, password: string, reqroom: string|undefined): Promise<{ type: string, room?: string, login?: string, message?: Array<string> }> {
+    async createUser(email: string, reqlogin: string, password: string,rPassword:string,reqroom: string|undefined): Promise<{ type: string, room?: string, login?: string, message?: Array<string> }> {
         try {
             if (await this.resurce.emailIsExist(email))
-                throw new Error("email занят");
+                throw new Error(JSON.stringify([1]));
 
-            const validateResult = this.validator.validate({ email, login: reqlogin, password }).filter(e => e != true);
-
+            const validateResult = this.validator.validate({ email, login: reqlogin, password,rPassword }).filter(e => e !== true);
+            console.log("here");
+            console.log(validateResult);
             if (validateResult.length > 0)
-                throw new Error("неправильный email,логин или пароль");
+                throw new Error(JSON.stringify(validateResult));
 
             const hashedPassword = await this.bcrypt.hash(password, 12);
             const { room, login } = await this.resurce.createUser(email, reqlogin, hashedPassword, reqroom);

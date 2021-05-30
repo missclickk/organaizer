@@ -65,11 +65,9 @@ export class MessageDistributor  extends ObservableWrapper implements Observer{
     update(args:Array<any>){
        switch(args[2]){
         case "sender":
-            console.log(1);
         this.notifyObservers([args[0],{ data: args[1], mode: "sender" }]);
         break;
         case "all":
-            console.log(2);
         this.notifyObservers([args[0],{ data:args[1], mode: "all" }]);
       
         break;

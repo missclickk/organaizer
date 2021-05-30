@@ -44,13 +44,6 @@ var CommandExecutor = /** @class */ (function () {
     CommandExecutor.prototype.createCommand = function (type, args, id, date) {
         return this.factory.createCommand(type, args, id, date);
     };
-    /*
-        создает команду и возвращеает то что она далает.
-    
-    
-    
-    
-    */
     CommandExecutor.prototype.commandExecute = function (com, id) {
         return __awaiter(this, void 0, void 0, function () {
             var res;
@@ -60,7 +53,7 @@ var CommandExecutor = /** @class */ (function () {
                     case 1:
                         res = _a.sent();
                         if (res !== undefined)
-                            return [2 /*return*/, { fn: res, chatId: id }];
+                            return [2 /*return*/, { fn: res.wrapper, chatId: id, commandType: res.commandType }];
                         return [2 /*return*/, true];
                 }
             });

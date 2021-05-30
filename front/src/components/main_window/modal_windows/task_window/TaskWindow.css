@@ -1,7 +1,7 @@
 .task-conteiner{
     z-index: 99;
     width: 30vw;
-    height: 50vh;
+    height: 65vh;
     box-sizing: border-box;
     background-color: whitesmoke;
     position: absolute;
@@ -14,12 +14,18 @@
     box-shadow: 15px 15px 10px rgba(0,0,0, 0.2);
 }
 
+
+
+
 .task-conteiner *{
     margin-top: 5px;
     border-radius: 5px;
 }
 
-
+.task-conteiner__error-list-conteiner{
+   font-size: 1.5vh;
+    
+}
 
 
 .task-conteiner__title-conteiner{
@@ -75,4 +81,11 @@
     top: 0%;
     background-color: rgba(0,0,0,0.3);
     z-index:0;
+}
+
+
+@media screen and (max-width : 900px) {
+    .task-conteiner{
+        width:60vw;
+    }
 }

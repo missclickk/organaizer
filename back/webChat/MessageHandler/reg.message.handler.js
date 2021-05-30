@@ -82,7 +82,6 @@ var RegMsgHanlder = /** @class */ (function (_super) {
                     case 1:
                         chat = _a.sent();
                         text = cacheChat && chat ? cacheChat.concat(chat) : cacheChat || chat;
-                        // args[0]===socket args[1]====res/resReg  args[2]===mode(sender || all);
                         this.notifyObservers([socket.socket, text ? { type: 'chat_msg', message: text } : { type: "chat_msg", message: [] }, "sender"]);
                         return [2 /*return*/, text ? { type: 'chat_msg', message: text } : { type: "chat_msg", message: [] }];
                 }

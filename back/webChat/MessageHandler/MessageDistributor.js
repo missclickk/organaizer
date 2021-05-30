@@ -99,10 +99,11 @@ var MessageDistributor = /** @class */ (function (_super) {
                             case 'msg': return [3 /*break*/, 4];
                         }
                         return [3 /*break*/, 6];
-                    case 2: return [4 /*yield*/, this.regHandel.handelMsg(cSocket, { roomID: roomID })];
+                    case 2: return [4 /*yield*/, this.regHandel.handelMsg(cSocket, { roomID: roomID })
+                        //  return { data: resReg, mode: "sender" };
+                    ];
                     case 3:
                         resReg = _c.sent();
-                        console.log(4);
                         //  return { data: resReg, mode: "sender" };
                         return [3 /*break*/, 7];
                     case 4: return [4 /*yield*/, this.chatHandel.handelMsg(cSocket, { msg: msg, roomID: roomID, date: date, loginUser: loginUser })];
@@ -128,11 +129,9 @@ var MessageDistributor = /** @class */ (function (_super) {
     MessageDistributor.prototype.update = function (args) {
         switch (args[2]) {
             case "sender":
-                console.log(1);
                 this.notifyObservers([args[0], { data: args[1], mode: "sender" }]);
                 break;
             case "all":
-                console.log(2);
                 this.notifyObservers([args[0], { data: args[1], mode: "all" }]);
                 break;
             default:

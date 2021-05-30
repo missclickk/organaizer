@@ -3,12 +3,13 @@ import {connect} from 'react-redux'
 
 const ErrorList=({list})=>{
 
-    let text=``;
-        list.forEach(e => {
-            text=text+`${e} \n`;
-         });
+    
+    const text=list.map((e,i)=><li key={i} >{e}</li>);
+        
     return <div className="testV">
+    <ul>
         {text}
+        </ul>
     </div>
 }
 

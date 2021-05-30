@@ -37,14 +37,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.app = exports.App = void 0;
-var Wss_1 = require("./Wss");
-var HttpServer_1 = require("./HttpServer");
+var Server_1 = require("./Server");
 var t_bot_1 = require("./../chatbots/t_bot");
 var Storage_1 = require("./Storage");
 var App = /** @class */ (function () {
     function App(listeners, storage) {
-        this.arrayListeners = [];
-        this.arrayListeners = listeners;
+        this.listeners = [];
+        this.listeners = listeners;
         this.storage = storage;
     }
     App.prototype.start = function () {
@@ -57,7 +56,7 @@ var App = /** @class */ (function () {
                             console.log("error at init storage!");
                             process.exit(1);
                         }
-                        this.arrayListeners.forEach(function (e) { return e.start(); });
+                        this.listeners.forEach(function (e) { return e.start(); });
                         return [2 /*return*/];
                 }
             });
@@ -66,4 +65,4 @@ var App = /** @class */ (function () {
     return App;
 }());
 exports.App = App;
-exports.app = new App([HttpServer_1.httpServer, Wss_1.wss, t_bot_1.tbot], Storage_1.storage);
+exports.app = new App([Server_1.server, t_bot_1.tbot], Storage_1.storage);

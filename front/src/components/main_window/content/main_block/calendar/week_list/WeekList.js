@@ -9,7 +9,6 @@ const WeekList = ({weekRange, currentWeekTasks}) => {
 
    
     let weekDays = [];
-   
     let clone =moment( weekRange.first);
     for (let i = 0; i < 7; i++){
         weekDays.push(<ListCard key={clone.date()} tasks={currentWeekTasks[i]} date={clone.date()} />)

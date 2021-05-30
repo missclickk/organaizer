@@ -103,7 +103,6 @@ var UserController = /** @class */ (function () {
                         return [4 /*yield*/, this.resurce.getUser(email)];
                     case 1:
                         user = _a.sent();
-                        console.log(user);
                         if (!user)
                             throw new Error("email не найден");
                         return [4 /*yield*/, this.bcrypt.compare(password, user[0].password)];
@@ -123,7 +122,7 @@ var UserController = /** @class */ (function () {
             });
         });
     };
-    UserController.prototype.createUser = function (email, reqlogin, password, reqroom) {
+    UserController.prototype.createUser = function (email, reqlogin, password, rPassword, reqroom) {
         return __awaiter(this, void 0, void 0, function () {
             var validateResult, hashedPassword, _a, room, login, e_3;
             return __generator(this, function (_b) {
@@ -133,10 +132,12 @@ var UserController = /** @class */ (function () {
                         return [4 /*yield*/, this.resurce.emailIsExist(email)];
                     case 1:
                         if (_b.sent())
-                            throw new Error("email занят");
-                        validateResult = this.validator.validate({ email: email, login: reqlogin, password: password }).filter(function (e) { return e != true; });
+                            throw new Error(JSON.stringify([1]));
+                        validateResult = this.validator.validate({ email: email, login: reqlogin, password: password, rPassword: rPassword }).filter(function (e) { return e !== true; });
+                        console.log("here");
+                        console.log(validateResult);
                         if (validateResult.length > 0)
-                            throw new Error("неправильный email,логин или пароль");
+                            throw new Error(JSON.stringify(validateResult));
                         return [4 /*yield*/, this.bcrypt.hash(password, 12)];
                     case 2:
                         hashedPassword = _b.sent();

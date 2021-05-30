@@ -17,8 +17,8 @@ const Content = ({ winType}) => {
     }, [winType,deleteWindow,renderModalWindow])
 
 
-    return <div className='content'>
-        <MainBlock />
+    return <div   className='content'>
+        <MainBlock/>
         <ChatBlock />
         <div className="modaleWindow" ></div>
     </div>

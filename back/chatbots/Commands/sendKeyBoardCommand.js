@@ -36,21 +36,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.SendKeyBoardCommand = void 0;
+exports.SendKeyBoardCommand = exports.KEYBOARD_TYPE = void 0;
 var t_bot_1 = require("../t_bot");
 var KEYBOARD_TYPE;
 (function (KEYBOARD_TYPE) {
-    KEYBOARD_TYPE[KEYBOARD_TYPE["USERS"] = 0] = "USERS";
-})(KEYBOARD_TYPE || (KEYBOARD_TYPE = {}));
+    KEYBOARD_TYPE[KEYBOARD_TYPE["ERROR"] = 1] = "ERROR";
+    KEYBOARD_TYPE[KEYBOARD_TYPE["DEFAULT"] = 2] = "DEFAULT";
+    KEYBOARD_TYPE[KEYBOARD_TYPE["USERS"] = 3] = "USERS";
+    KEYBOARD_TYPE[KEYBOARD_TYPE["ERROR_OVERFLOW"] = 4] = "ERROR_OVERFLOW";
+})(KEYBOARD_TYPE = exports.KEYBOARD_TYPE || (exports.KEYBOARD_TYPE = {}));
 var SendKeyBoardCommand = /** @class */ (function () {
-    function SendKeyBoardCommand(args, chatId, resurce, wrapper) {
+    function SendKeyBoardCommand(type, args, chatId, resurce, wrapper) {
         this.chatId = chatId;
         ;
         this.args = args;
         this.resurce = resurce;
         this.wrapper = wrapper;
+        this.keyBoardType = type;
     }
-    SendKeyBoardCommand.prototype.execute = function () {
+    SendKeyBoardCommand.prototype.createUserKeyBoard = function () {
         return __awaiter(this, void 0, void 0, function () {
             var users, keyboard, room;
             return __generator(this, function (_a) {
@@ -59,14 +63,51 @@ var SendKeyBoardCommand = /** @class */ (function () {
                     case 1:
                         users = _a.sent();
                         keyboard = users.map(function (e) { return [e.login]; });
-                        keyboard.push(["далее"]);
-                        keyboard.push(["отмена"]);
-                        if (KEYBOARD_TYPE.USERS === 0)
-                            t_bot_1.tbot.sendKeyboard(this.chatId, "ВЫберете пользователей котоым будет виден этот список", keyboard);
                         return [4 /*yield*/, this.resurce.getUserByChatId(this.chatId)];
                     case 2:
                         room = (_a.sent()).room;
-                        return [2 /*return*/, this.wrapper.bind(null, this.args.join(" "), room, users.map(function (e) { return e.login; }))];
+                        this.wrapper = this.wrapper.bind(null, room, this.args.join(" "), users.map(function (e) { return e.login; }));
+                        return [2 /*return*/, keyboard];
+                }
+            });
+        });
+    };
+    SendKeyBoardCommand.prototype.execute = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var keyboard, disciprion, commandType, _a, users, room;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        keyboard = [];
+                        _a = this.keyBoardType;
+                        switch (_a) {
+                            case KEYBOARD_TYPE.USERS: return [3 /*break*/, 1];
+                            case KEYBOARD_TYPE.DEFAULT: return [3 /*break*/, 3];
+                        }
+                        return [3 /*break*/, 6];
+                    case 1: return [4 /*yield*/, this.createUserKeyBoard()];
+                    case 2:
+                        keyboard = _b.sent();
+                        disciprion = "Выберете пользователей котоым будет виден этот список";
+                        commandType = "users";
+                        keyboard.push(["далее"]);
+                        return [3 /*break*/, 7];
+                    case 3:
+                        disciprion = "напишите описание события";
+                        commandType = "disciprion";
+                        return [4 /*yield*/, this.resurce.getListByChatId(this.chatId)];
+                    case 4:
+                        users = _b.sent();
+                        return [4 /*yield*/, this.resurce.getUserByChatId(this.chatId)];
+                    case 5:
+                        room = (_b.sent()).room;
+                        this.wrapper = this.wrapper.bind(null, room, this.args.join(" "), users.map(function (e) { return e.login; }));
+                        _b.label = 6;
+                    case 6: return [3 /*break*/, 7];
+                    case 7:
+                        keyboard.push(["отмена"]);
+                        t_bot_1.tbot.sendKeyboard(this.chatId, disciprion, keyboard);
+                        return [2 /*return*/, { wrapper: this.wrapper, commandType: commandType }];
                 }
             });
         });

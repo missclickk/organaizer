@@ -1,3 +1,3 @@
 export interface Command{
-  execute():void|Command|Function|Promise<void|Command|Function>
+  execute():void|{wrapper:Function,commandType:string}|Promise<void|{wrapper:Function,commandType:string}>
 }
