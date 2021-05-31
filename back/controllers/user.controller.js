@@ -115,7 +115,7 @@ var UserController = /** @class */ (function () {
                         return [3 /*break*/, 4];
                     case 3:
                         e_2 = _a.sent();
-                        console.log("//////////////////////////////////////////////   37");
+                        console.log(e_2);
                         return [2 /*return*/, e_2];
                     case 4: return [2 /*return*/];
                 }

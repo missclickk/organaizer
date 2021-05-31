@@ -72,7 +72,10 @@ var ChatMsgHanlder = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, this.resurce.getClients(roomID)];
                     case 1:
                         bots = _a.sent();
-                        bots.forEach(function (e) { return t_bot_1.tbot.sendMessage(e, loginUser + ": " + msg); });
+                        bots.forEach(function (e) {
+                            if (e.login !== loginUser)
+                                t_bot_1.tbot.sendMessage(e.chatId, loginUser + ": " + msg);
+                        });
                         return [2 /*return*/];
                 }
             });
@@ -93,6 +96,8 @@ var ChatMsgHanlder = /** @class */ (function (_super) {
                         obj = this.msgStorage.getItemByName(roomID, "clients");
                         if (obj.filter !== undefined) {
                             clients = this.msgStorage.getItemByName(roomID, "clients").filter(function (e) { return e != socket.socket; });
+                            console.log("bots");
+                            console.log(clients);
                             this.notifyObservers([socket.socket, { type: "chat_msg", clients: clients, message: [responseData] }, "all"]);
                             return [2 /*return*/, { type: "chat_msg", clients: clients, message: [responseData] }];
                         }

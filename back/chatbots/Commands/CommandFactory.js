@@ -16,7 +16,6 @@ var CommandFactory = /** @class */ (function () {
     function CommandFactory() {
     }
     CommandFactory.prototype.createCommand = function (type, args, chatId, date) {
-        console.log(type);
         switch (type) {
             case "/reg":
                 return new RegCommand_1.RegCommand(args, chatId, user_controller_1.userController.addBotLink.bind(user_controller_1.userController));

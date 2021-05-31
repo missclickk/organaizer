@@ -3,7 +3,7 @@ import '../TaskWindow.css'
 import { connect } from "react-redux"
 
 const DescriptionInput = ({ type, description }) => (<div className='task-conteiner__description-conteiner' >
-    <label>Описание: </label>
+    <label  className="input__label2">Описание: </label>
     {
         type === "taskOutput" ? <textarea disabled="disabled" defaultValue={description} className="task-conteiner__description-conteiner__description-const" />
             : <textarea wrap="hard" cols="22" name="description" />}

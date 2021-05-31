@@ -6,9 +6,10 @@ var dateHandlers_1 = require("../handlers/dateHandlers");
 var TaskList = /** @class */ (function () {
     function TaskList(tasks, mode, date) {
         var _this = this;
-        this.getTasksForCurrentDay = function (tasks, dateArg) {
+        this.getTasksForCurrentDay = function (tasks, dateA) {
             var dayTasks = [];
             tasks.forEach(function (e) {
+                var dateArg = moment(dateA);
                 var taskDate = moment(e.date);
                 if (dateHandlers_1.compareDate(taskDate, dateArg, ['equal', 'equal', 'equal'], ['date', 'month', 'year'], "and") || _this.taskInRange(e.period, taskDate, dateArg))
                     dayTasks.push(e);

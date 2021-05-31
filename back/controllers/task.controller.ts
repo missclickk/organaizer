@@ -13,6 +13,7 @@ export class TaskController {
     }
     async getTaskList(mode:string, date:string, login:string, room:string) {
         try {
+
             return new this.tasksList(await this.taskResurce.getTaskList(login, room), mode, date).getTasks();
         }
         catch (e) {

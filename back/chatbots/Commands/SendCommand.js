@@ -39,7 +39,7 @@ exports.__esModule = true;
 exports.SendCommand = void 0;
 var SendCommand = /** @class */ (function () {
     function SendCommand(args, chatId, date, executor, resurce) {
-        this.msg = args.toString();
+        this.msg = args.join(" ");
         this.chatId = chatId;
         this.executor = executor;
         this.resurce = resurce;

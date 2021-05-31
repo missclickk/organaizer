@@ -12,9 +12,9 @@ export class ChatResurce {
         this.roomModel = roomModel;
         this.Storage = Storage;
     }
-    async getClients(roomID: string): Promise<Array<string>> {
-        const store = await this.Storage.getItemWithConditionally(this.model, ["room", "chatId"], [roomID, { $exists: true }], ["chatId"]);
-        return store.map(e => e.chatId);
+    async getClients(roomID: string): Promise<{chatId:string,login:string}[]> {
+        const store = await this.Storage.getItemWithConditionally(this.model, ["room", "chatId"], [roomID, { $exists: true }], ["chatId", "login"]);
+        return store.map(e => ({login:e.login,chatId:e.chatId}));
     }
 
     async getChat(roomID: string): Promise<Array<any>> {

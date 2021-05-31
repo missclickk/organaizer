@@ -2,7 +2,7 @@ import React from 'react'
 import '../TaskWindow.css'
 import { connect } from "react-redux"
 const TimeInput = ({type,time }) => (<div className='task-conteiner__time-conteiner'>
-    <label>Время:</label>
+    <label  className="input__label4">Время:</label>
     { type === "taskOutput" ? <label>{time}</label> : <input name="time" type="time" />}
 </div>
 )

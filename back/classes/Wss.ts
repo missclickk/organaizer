@@ -40,8 +40,9 @@ export class Wss implements Observer {
                 socket.send(JSON.stringify(obj.data));
                 break;
             case "all":
-               
+                
                 obj.data.clients.forEach(e => {
+                    if(e.send!==undefined)
                     e.send(JSON.stringify({ type: obj.data.type, message: obj.data.message }))
                 });
                 break;

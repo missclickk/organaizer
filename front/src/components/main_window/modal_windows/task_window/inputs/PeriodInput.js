@@ -30,7 +30,7 @@ const getPeriodTextVal=(val)=>{
 
 
     return <div className='task-conteiner__repeat-period-conteiner'>
-        <label>Период повтореня: </label>
+        <label  className="input__label5">Период повтореня: </label>
             {elem}
     </div>
 }

@@ -51,7 +51,8 @@ export class UserResurce {
         const user =await new User({ email, login, password });
          await user.save();
          if (room === undefined) {
-             const nRoom = new Room({ users: user._id })
+             console.log(123);
+             const nRoom = new this.roomModel({ users: user._id })
              await nRoom.save();
              await   this.Storage.setItem(User, { _id: user._id }, 'room', nRoom._id)
              room = nRoom._id;

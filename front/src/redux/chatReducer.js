@@ -1,4 +1,4 @@
-import { INCOMIG_MSG, ADD_MESSAGE, TYPING } from './types'
+import { INCOMIG_MSG, ADD_MESSAGE, TYPING ,OPEN_APP} from './types'
 const EMPTY_MESSAGE = [{hour:"",minute:"",loginUser:" ",msg:"НЕТ СООБЩЕНИЙ"}];
 
 const initialState = {
@@ -9,6 +9,8 @@ const initialState = {
 export const chatReducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case OPEN_APP:
+            return {...state,    messages: EMPTY_MESSAGE}
         case ADD_MESSAGE:
             return { ...state, messages: state.messages===EMPTY_MESSAGE?[action.payload]:[...state.messages,action.payload], writeVal: "" }
         case INCOMIG_MSG:

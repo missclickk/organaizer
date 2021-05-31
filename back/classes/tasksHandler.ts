@@ -23,9 +23,10 @@ export class TaskList{
     
         }
     }
-    private getTasksForCurrentDay = (tasks, dateArg) => {
+    private getTasksForCurrentDay = (tasks, dateA) => {
         const dayTasks = [];
         tasks.forEach(e => {
+            let dateArg=moment(dateA);
             const taskDate = moment(e.date);
             if (compareDate(taskDate, dateArg, ['equal', 'equal', 'equal'], ['date', 'month', 'year'], "and") ||  this.taskInRange(e.period, taskDate, dateArg))
                 dayTasks.push(e);

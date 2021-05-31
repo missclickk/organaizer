@@ -15,10 +15,7 @@ export class UserController {
 
     async addBotLink(email: string, password: string,chatId:string): Promise<{ message: string }> {
         try {
-          //  const validateResult = this.validator.validate({ email,password });
-          //  if (validateResult.length > 0)
-          
-          //     throw new Error("неправильный email,логин или пароль");
+            
             const result: Error | { login: string, room: string } = await this.getUser(email, password);
             const resultAsError: Error = result as Error;
             const user: { login: string, room: string } = result as { login: string, room: string };
@@ -57,7 +54,7 @@ export class UserController {
             else throw new Error("email не найден");
         }
         catch (e) {
-            console.log("//////////////////////////////////////////////   37")
+            console.log(e)
             return e;
         }
 

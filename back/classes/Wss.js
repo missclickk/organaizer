@@ -83,7 +83,8 @@ var Wss = /** @class */ (function () {
                 break;
             case "all":
                 obj.data.clients.forEach(function (e) {
-                    e.send(JSON.stringify({ type: obj.data.type, message: obj.data.message }));
+                    if (e.send !== undefined)
+                        e.send(JSON.stringify({ type: obj.data.type, message: obj.data.message }));
                 });
                 break;
             default:

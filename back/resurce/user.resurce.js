@@ -133,7 +133,8 @@ var UserResurce = /** @class */ (function () {
                     case 2:
                         _a.sent();
                         if (!(room === undefined)) return [3 /*break*/, 5];
-                        nRoom = new Room({ users: user._id });
+                        console.log(123);
+                        nRoom = new this.roomModel({ users: user._id });
                         return [4 /*yield*/, nRoom.save()];
                     case 3:
                         _a.sent();

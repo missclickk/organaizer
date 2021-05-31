@@ -188,6 +188,7 @@ export function createTask(task,room) {
 export function getTasks(mode, date,room,login) {
     return async dispatch => {
         dispatch(startLoading());
+        console.log(date);
         const headers = { 'Content-Type': 'application/json', _date: date.format(),room,login,mode };
         let type;
         switch (mode) {

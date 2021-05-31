@@ -45,16 +45,11 @@ var MsgStorage = /** @class */ (function () {
     }
     MsgStorage.prototype.setItemByName = function (key, value) {
         return __awaiter(this, void 0, void 0, function () {
-            var room, ids;
+            var room;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.resurce.getClients(key)];
-                    case 1:
-                        ids = _a.sent();
-                        room = { clients: [value], chatBots: ids };
-                        this.cache.set(key, room);
-                        return [2 /*return*/, 1];
-                }
+                room = { clients: [value] };
+                this.cache.set(key, room);
+                return [2 /*return*/, 1];
             });
         });
     };

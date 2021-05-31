@@ -20,6 +20,7 @@ export class TaskResurce {
     }
 
     async getTaskList(login:string,room:string){
+        
         const filds = [`users.${login}`, 'room'];
         const fildsVal = [{ '$exists': false }, room];
         const filds1 = [`users.${login}`, 'room'];

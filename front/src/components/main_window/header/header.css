@@ -1,8 +1,8 @@
 .header{
-    background-color: rgb(73, 148, 167);
+    background: linear-gradient(to top left,#e2e2d8,#72b8e0 );
     display: flex;
     justify-content: flex-end;
-    color:rgba(61, 54, 54, 0.8)
+    color:rgba(54, 60, 61, 0.8)
 }
 
 

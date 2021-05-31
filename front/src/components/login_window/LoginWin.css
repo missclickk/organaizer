@@ -1,21 +1,21 @@
 .login-win-conteiner{
-    background: linear-gradient(to top left,#f8f6c5,#e6cbb8 );
+    background: linear-gradient(to top left,#e2e2d8,#72b8e0 );
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    color:#33332d ;
+    color:#3a3d3f ;
     font-size: 2vh;
 }
 
 .login-win{
-    background: linear-gradient(to top left,#faf8b8,#EDD8C9 );
-    border: 3px solid #706F5B;
+    background: linear-gradient(to top left,#e2e2d8,#a8d0e7  );
+    border: 3px solid #31373a;
     border-radius: 10px;
-    box-shadow: 10px 10px 10px #B0AE8F;
+    box-shadow: 10px 10px 10px #5ca8d4;
     width: 65vh;
-    height: 75vh;
+    height: 80vh;
 display: flex;
 align-items: center;
     flex-direction: column;
@@ -32,27 +32,27 @@ align-items: center;
 }
 .login-win__from__input{
     font-size: 3vh;
-background: linear-gradient(to top left,#F3F1C6,#EDD8C9 );
+background-color: seashell;
 height: 3vh;
 min-width: 15vw;
-border: 2px solid#33332d;
+border: 2px solid#c7cccf;
 border-radius: 3px;
 }
 
 .login-win__from__input:focus{
-    border: 3px solid #42423c;
+    border: 3px solid #c7cccf;
     outline :0;
 }
 
 
 
 .login-win__authSpan{
-    color:#928c10;
+    color:#05224275;
 }
 
 .login-win__authSpan:hover{
     cursor: pointer;
-    color:#c2bc0c;
+    color:#612525;
 }
 
 

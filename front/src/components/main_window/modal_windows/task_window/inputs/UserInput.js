@@ -8,8 +8,8 @@ const UserInput = ({usersList}) => (<div className="task-conteiner__users-contei
 
         usersList.map((e,i)=>{
           return  <div className="checkbox-wrapper" key={i}>
-            <label>{e}</label>
-            <input type="checkbox" value={e} />
+            <label className="input__label6" >{e}</label>
+            <input type="checkbox" className="checkbox-wrapper__input" value={e} />
             </div>
         })
     }

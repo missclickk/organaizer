@@ -15,7 +15,6 @@ export class CommandFactory {
     constructor() {
     }
     createCommand(type: string, args: Array<string> | null, chatId?: string, date?: string): Command {
-        console.log(type);
         switch (type) {
             case "/reg":
                 return new RegCommand(args, chatId, userController.addBotLink.bind(userController));

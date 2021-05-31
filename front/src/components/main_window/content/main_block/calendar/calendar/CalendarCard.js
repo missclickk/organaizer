@@ -10,16 +10,16 @@ const CalendarCard=(props)=>{
        if(length)
        switch (length) {
            case 1:
-            lengthDiv=<div id={i.format()} className="calendar__card__content-conteiner__tasks-number">{`${length} задача`}</div>
+            lengthDiv=<div id={i.format()} className="calendar__card__content-conteiner__tasks-number">{`${length}`} <span>событие</span></div>
                break;
                case 2:
-                lengthDiv=<div id={i.format()} className="calendar__card__content-conteiner__tasks-number">{`${length} задачи`}</div>
+                lengthDiv=<div id={i.format()} className="calendar__card__content-conteiner__tasks-number">{`${length}`} <span>события</span></div>
                    break;
                    case 3:
-                    lengthDiv=<div id={i.format()} className="calendar__card__content-conteiner__tasks-number">{`${length} задачи`}</div>
+                    lengthDiv=<div id={i.format()} className="calendar__card__content-conteiner__tasks-number">{`${length}`} <span>события</span></div>
                        break;
                        case 4:
-                        lengthDiv=<div id={i.format()} className="calendar__card__content-conteiner__tasks-number">{`${length} задачи`}</div>
+                        lengthDiv=<div id={i.format()} className="calendar__card__content-conteiner__tasks-number">{`${length}`} <span>события</span></div>
                            break;
            default:
                 lengthDiv=<div id={i.format()} className="calendar__card__content-conteiner__tasks-number">{``}</div>
@@ -35,6 +35,7 @@ const CalendarCard=(props)=>{
 
     const onClickHandler=(event)=>{
       props.openTaskList(event.target.id,"taskList");
+      console.log(event.target);
       props.getTasks("taskList", moment(event.target.id),props.room,props.login);
    }
   let id=moment(props.date).date(props.i+1);

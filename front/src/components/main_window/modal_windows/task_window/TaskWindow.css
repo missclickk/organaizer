@@ -83,9 +83,28 @@
     z-index:0;
 }
 
-
-@media screen and (max-width : 900px) {
-    .task-conteiner{
-        width:60vw;
+.input__label1{
+    margin-right: 5vw;
     }
+    
+.input__label2{
+    margin-right: 4vw;
+    }
+.input__label3{
+margin-right: 9vw;
+}
+.input__label4{
+    margin-right: 13vw;
+    }
+
+@media screen and (max-width :900px) {
+    .task-conteiner{
+            width: 60vh;
+            height: 70vh;
+    }
+  input.checkbox-wrapper__input{
+    width: 20px;
+    height: 30px;
+  }
+
 }

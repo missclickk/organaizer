@@ -1,4 +1,4 @@
-.calendar{
+    .calendar{
     background-color:rgba(247, 245, 243, 0.918);
     
     border-radius: 3px;
@@ -28,7 +28,26 @@
    }
 
    .calendar__card__content-conteiner__tasks-number{
-   
-    color: rgba(204, 128, 128,0.7);   
+    margin-left: 1vh;
+    margin-top: 3vh;
+    color:  rgb(73, 148, 167);   
     font-size: 3vh;
    }
+
+   @media screen and (max-width :1000px) {
+    .calendar__card__content-conteiner__tasks-number{
+        margin-left: 1vh;
+    margin-top: 5vh;
+    font-size:90%;
+    }
+  }
+  @media screen and (max-width :800px) {
+    .calendar__card__content-conteiner__tasks-number{
+        margin-left: 1vh;
+    margin-top: 5vh;
+        font-size:100%;
+    }
+    .calendar__card__content-conteiner__tasks-number span{
+        display: none;
+    }
+  }

@@ -34,10 +34,9 @@ const compareDate=(date,secDate,mark,partOfDate=[''],logicOperator='')=>{
 //date[partOfDate]()
     const fDate=moment(date);
     const sDate=moment(secDate);
+    
     if(partOfDate[0]==='full')
       return  compareParts(fDate.valueOf(),sDate.valueOf(),mark[0]);
-
-
     const resultArr=partOfDate.map((e,i)=>compareParts(fDate[e](),sDate[e](),mark[i]));
     switch (logicOperator){
         case 'and':

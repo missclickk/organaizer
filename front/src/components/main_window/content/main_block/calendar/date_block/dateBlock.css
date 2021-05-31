@@ -36,3 +36,18 @@ margin-right:  29vw;
     font-size: 2vh;
     font-weight: 700;
 }
+@media screen and (max-width :750px) {
+    .dateBlock{
+        width:15vw;
+    }
+ 
+  }
+  @media screen and (max-width :650px) {
+    .dateBlock{
+        width:15vw;
+    }
+    .dateBlock__arrowImg{
+        width: 2.5vw;
+         height:4.5vh;
+     }
+  }

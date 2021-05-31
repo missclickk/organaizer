@@ -10,7 +10,7 @@ export class SendCommand implements Command{
     private resurce:UserResurce;
     private date:string;
     constructor(args:Array<string>,chatId:string,date:string,executor:Function,resurce:UserResurce){
-        this.msg=args.toString();
+        this.msg=args.join(" ");
         this.chatId=chatId;
         this.executor=executor;
         this.resurce=resurce;

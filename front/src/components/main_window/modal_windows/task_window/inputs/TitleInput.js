@@ -2,7 +2,7 @@ import React from 'react'
 import '../TaskWindow.css'
 import { connect } from "react-redux"
 const TitleInput = ({ type, title }) => <div className='task-conteiner__title-conteiner'>
-    <label>Название: </label>
+    <label className="input__label1">Название: </label>
     {type === "taskOutput" ? <label>{title}</label> : <input name="title" type="text"></input>}
 </div>
 

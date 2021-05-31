@@ -17,8 +17,8 @@ export class MsgStorage implements IStorageCrud {
  
     async setItemByName(key:string,value:Object):Promise<any>{      
         let room:IRoom;
-        const ids:Array<string>=await this.resurce.getClients(key);
-         room={clients:[value],chatBots:ids};
+   
+         room={clients:[value]};
         this.cache.set(key,room);
             return 1;
     }

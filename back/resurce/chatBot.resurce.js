@@ -51,10 +51,10 @@ var ChatResurce = /** @class */ (function () {
             var store;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.Storage.getItemWithConditionally(this.model, ["room", "chatId"], [roomID, { $exists: true }], ["chatId"])];
+                    case 0: return [4 /*yield*/, this.Storage.getItemWithConditionally(this.model, ["room", "chatId"], [roomID, { $exists: true }], ["chatId", "login"])];
                     case 1:
                         store = _a.sent();
-                        return [2 /*return*/, store.map(function (e) { return e.chatId; })];
+                        return [2 /*return*/, store.map(function (e) { return ({ login: e.login, chatId: e.chatId }); })];
                 }
             });
         });

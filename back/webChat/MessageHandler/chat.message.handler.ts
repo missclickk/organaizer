@@ -18,8 +18,11 @@ export class ChatMsgHanlder extends ObservableWrapper implements MsgHandler {
         this.resurce=res;
     }
     private async sendMessageInMessanger(roomID:string,loginUser:string,msg:string){
-        const bots:Array<string>=await this.resurce.getClients(roomID);
-            bots.forEach(e=>tbot.sendMessage(e,loginUser+": "+msg));
+        const bots:{chatId:string,login:string}[]=await this.resurce.getClients(roomID);
+   
+            bots.forEach(e=>{
+                if(e.login!==loginUser)
+                tbot.sendMessage(e.chatId,loginUser+": "+msg)});
         }
 
 
@@ -32,10 +35,13 @@ export class ChatMsgHanlder extends ObservableWrapper implements MsgHandler {
         const obj= this.msgStorage.getItemByName(roomID, "clients");
         if((obj as Array<any>).filter!==undefined){
         const clients:Array<any> = this.msgStorage.getItemByName(roomID, "clients").filter(e => e!= socket.socket);
+        console.log("bots");
+        console.log(clients);
         this.notifyObservers([socket.socket,{ type: "chat_msg", clients,message: [responseData] },"all"]);       
         return { type: "chat_msg", clients,message: [responseData] };
         }
         else{
+
             this.resurce.setChat(roomID,[responseData]);    
         }
     

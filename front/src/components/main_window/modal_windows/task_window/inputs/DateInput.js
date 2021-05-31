@@ -4,7 +4,7 @@ import '../TaskWindow.css'
 
 const DateInput = ({date }) => {
     return<div className='task-conteiner__date-conteiner'>
-    <label>Дата: </label>
+    <label  className="input__label3">Дата: </label>
     <input name="date" type="date"/>
 </div>}
 

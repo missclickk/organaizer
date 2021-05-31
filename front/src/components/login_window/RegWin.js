@@ -37,14 +37,17 @@ const RegWin = ({ regUser, errorList, switchUserWin, winType }) => {
                <InputsWrapper/>
             </div>
             <div className="login-win__text">Если вы уже зарегистрированы нажмиете " <span className='login-win__authSpan' onClick={onClickHanlder}>Авторизироваться</span>" </div>
-            <div className='login-win__btn-wrapper'>
+            <ul>
+            { errorList.map((e,i)=>{
+                   return  <li key={i}>{e}</li>
+            })}
+            </ul>
+           <div className='login-win__btn-wrapper'>
+                
                 <div className='oldRoom login-win__submitBtn' onClick={onClickHanlder}>ВОЙТИ В КОМНАТУ</div>
                 <div className='newRoom login-win__submitBtn' onClick={onClickHanlder}>СОЗДАТЬ НОВУЮ КОМНАТУ</div>
             </div>
-
-            { errorList.reduce((a,b)=>{
-                   return  a.concat(` ${b} `);
-            }," ")}
+          
         </div>
     </div>
 }

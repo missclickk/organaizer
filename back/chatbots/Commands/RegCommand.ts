@@ -6,13 +6,14 @@ export class RegCommand implements Command{
     private executor:Function; 
     private chatId:string;
     constructor(args:Array<string>,chatId:string,executor:Function){
-       this.email=args[0];
+        args=args.filter(e=>e!="");
+        this.email=args[0];
      this.password=args[1];
      this.executor=executor;
      this.chatId=chatId;
      }
      execute(){
-        
+      
          this.executor(this.email,this.password,this.chatId);
      }
  
